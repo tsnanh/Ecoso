@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <title>Ecoso - Home</title>
+    <link rel='stylesheet' href='/stylesheets/home_page.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script src="/bootstrap/js/bootstrap.js"></script>
+    <link rel="shortcut icon" href="/images/ecoso_logo.png"/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/javascripts/navbar.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+</head>
+<body>
+<div class="wrapper">
+    <nav class="fixed-top">
+        <div class="menu-icon">
+            <i class="fa fa-bars fa-2x"></i>
+        </div>
+        <div class="logo">
+            <img src="/images/ecoso_logo.png" style="width: 64px;"  alt="ecosoLogo"/>Ecoso
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/posts">Posts</a></li>
+                <li><a href="/messenger">Public Chat</a></li>
+                <li><a href="/saved">Saved Posts</a></li>
+                <li>
+                    <a style="cursor: pointer;" onclick="signOut()" id="dropdownMenuButton"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="<%%>" id="avatarNavbar"  alt="avatar"/>
+                    </a>
+                </li>
+            </ul>
+            <div id="dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container content">
+        <img src="<%=avatar%>"
+    </div>
+</div>
+<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+
+<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-analytics.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+<script src="/javascripts/firebaseInit.js"></script>
+<script src="/javascripts/login.js"></script>
+<script src="/javascripts/profile.js"></script>
+</body>
+</html>

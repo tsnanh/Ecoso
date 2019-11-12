@@ -1,0 +1,377 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+    background: url("../images/88891.webp") no-repeat fixed;
+    background-size: cover;
+    font-family: 'Lucida Grande', sans-serif;
+}
+.wrapper {
+    background: rgba(0, 0, 0, 0.45) no-repeat fixed;
+    width: 100%;
+    height: max-content;
+}
+header {
+    width: 100%;
+    /*background: url("../images/88891.webp");*/
+    /*background-size: cover;*/
+    /*height: 15vh;*/
+    /*height: auto;*/
+    background: rgba(0, 0, 0, 0.45) no-repeat fixed;
+    width: 100%;
+    height: max-content;
+}
+
+.content {
+    width: 100%;
+    font-size: 20px;
+    margin: 6em auto 24px;
+    line-height: 30px;
+    text-align: justify;
+    background: white;
+    border-radius: 4px;
+    /*
+    -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+    -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+    border-top: 4px solid forestgreen;
+    */
+    /*height: 1000px;*/
+}.content2 {
+    width: 100%;
+    font-size: 20px;
+    margin: 0em auto 24px;
+    line-height: 30px;
+    text-align: justify;
+    background: white;
+    border-radius: 4px;
+    /*
+    -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+    -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+    border-top: 4px solid forestgreen;
+    */
+    /*height: 1000px;*/
+}
+
+.logo {
+    line-height: 60px;
+    position: fixed;
+    float: left;
+    margin: 16px 46px;
+    color: #fff;
+    font-weight: normal;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+nav {
+    position: fixed;
+    width: 100%;
+    line-height: 60px;
+}
+
+nav ul {
+    line-height: 60px;
+    list-style: none;
+    background: rgba(0, 0, 0, 0);
+    overflow: hidden;
+    color: #fff;
+    padding: 0;
+    text-align: right;
+    margin: 0;
+    padding-right: 40px;
+    transition: 1s;
+}
+
+nav.black ul {
+    background: #000;
+}
+
+nav ul li {
+    display: inline-block;
+    padding: 16px 40px;;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+.menu-icon {
+    line-height: 60px;
+    width: 100%;
+    background: #000;
+    text-align: right;
+    box-sizing: border-box;
+    padding: 15px 24px;
+    cursor: pointer;
+    color: #fff;
+    display: none;
+}
+
+.helloUser {
+    padding-top: 10em;
+    padding-bottom: 0em;
+}
+
+.helloUser h1 {
+    text-align: center;
+    color: rgba(96,255,160,0);
+    font-weight: 900;
+    font-size: 64px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+}
+
+@media(max-width: 786px) {
+
+    .logo {
+        position: fixed;
+        top: 0;
+        margin-top: 16px;
+    }
+
+    nav ul {
+        max-height: 0px;
+        background: #000;
+    }
+
+    nav.black ul {
+        background: #000;
+    }
+
+    .showing {
+        max-height: 34em;
+    }
+
+    nav ul li {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 24px;
+        text-align: center;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+}
+
+.title {
+    color: white;
+    font-weight: bold;
+    padding: 20px;
+}
+
+#updateForm {
+    display: block;
+    margin: auto;
+    color: white;
+}
+
+#maps {
+    width: 100%;
+    height: 300px;
+}
+
+.inputDiv {
+    padding: 8px;
+    display: block;
+    margin: 0 auto;
+    color: white;
+}
+
+.inputDiv input {
+    width: 100%;
+}
+
+.form-container {
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+#avatarNavbar {
+    width: 48px;
+    height: auto;
+}
+
+.sectionTitle {
+    color: darkgreen;
+    text-align: center;
+    padding-top: 8px;
+    font-weight: bold;
+}
+
+.topPosts {
+    padding: 8px;
+}
+
+.imgAvatarTop {
+    width: 48px;
+    height: 48px;
+}
+
+.timePost {
+    font-size: 12px;
+    color: grey;
+}
+
+.nameUserTop {
+    color: black;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+
+.natTop {
+    margin-left: 8px;
+}
+
+.imgTopPost img {
+    max-width: inherit;
+    width: 100%;
+    height: auto;
+}
+
+.crop {
+    width: 100%;
+    /*height: 300px;*/
+    overflow: hidden;
+}
+
+.crop img {
+    width: inherit;
+    height: auto;
+    /*margin: -75px 0 0 -100px;*/
+}
+
+.topPostFooter {
+    font-size: 14px;
+}
+
+.btnReact {
+    width: 100%;
+    font-size: 10px;
+}
+
+.createPost {
+    padding: 12px;
+}
+
+.createPost img {
+    width: 48px;
+    height: auto;
+}
+.createPost textarea {
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    resize: none;
+    color: black;
+}
+
+#imagePost {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#imagePost + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: gray;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#imagePost:focus + label,
+#imagePost + label:hover {
+    color: green;
+}
+
+#imageUpload {
+    width: 100%;
+    padding-left: 14px;
+    height: auto;
+}
+#imageUpload img {
+    width: auto;
+    padding-left: 14px;
+    height: auto;
+    max-height: 100px;
+}
+
+.post {
+    border-radius: 6px;
+    margin: 16px;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+    -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+}
+
+.post img {
+    max-width: inherit;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+}
+.postContent {
+    padding: 16px;
+    background: #0d4b19;
+    color: white;
+    border-radius: 6px;
+}
+.postContent img {
+    width: 80px;
+    height: 80px;
+    background: white;
+}
+.postContentInside span {
+    font-size: 12px;
+    color: lightgray;
+}
+
+.postContentInside a {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.postContentInside a:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
+.postContentInside p {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+#postContainer {
+    padding-bottom: 4px;
+}
+#dropdown {
+    position: relative;
+    display: none;
+    float: right;
+}
+.dropdown>.dropdown-menu {
+    top: 200%;
+    transition: 0.3s all ease-in-out;
+}
+.dropdown:hover>.dropdown-menu {
+    display: block;
+    top: 100%;
+}
+
+.dropdown>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+    <title>Ecoso - Home</title>
+    <link rel='stylesheet' href='/stylesheets/home_page.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script src="/bootstrap/js/bootstrap.js"></script>
+    <link rel="shortcut icon" href="/images/ecoso_logo.png"/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/javascripts/navbar.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+</head>
+<body>
+<div class="wrapper">
+    <nav class="fixed-top">
+        <div class="menu-icon">
+            <i class="fa fa-bars fa-2x"></i>
+        </div>
+        <div class="logo">
+            <img src="/images/ecoso_logo.png" style="width: 64px;" />Ecoso
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/posts">Posts</a></li>
+                <li><a href="/publicChat">Public Chat</a></li>
+                <li><a href="/savedPosts">Saved Posts</a></li>
+                <li>
+                    <a style="cursor: pointer;" id="dropdownMenuButton"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="<%=avatar%>" id="avatarNavbar" />
+                    </a>
+                </li>
+            </ul>
+            <div id="dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container helloUser">
+        <h1>Welcome <%=user%>!</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" style="padding-left: 8px; padding-right: 8px;">
+                <div class="content">
+                    <h6 class="sectionTitle">Create New Post</h6>
+                    <hr style="margin: 0"/>
+                    <div class="createPost row" id="warning"
+                         style="display: none; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+                        <span style="padding-left: 14px; font-size: 14px;" class="text-danger" id="warningText"></span>
+                    </div>
+                    <div class="createPost row">
+                        <div class="col-md-1"><img src="<%=avatar%>" /></div>
+                        <div class="col-md-10">
+                            <textarea id="taPost" placeholder="What's on your mind, <%=user.split(' ')[0]%>?"></textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <input id="imagePost" type="file" accept="image/*" name="imagePost" />
+                            <label for="imagePost">
+                                <i id="addPhoto" style="font-size: 40px; cursor: pointer;" class="material-icons">
+                                    add_photo_alternate
+                                </i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row" id="imageUpload">
+                        <img src="" id="imgPreview" />
+                    </div>
+                    <div class="row justify-content-end createPost">
+                        <button class="btn btn-success mr-3" id="btnPost">Post</button>
+                    </div>
+                </div>
+                <div class="content2">
+                    <h6 class="sectionTitle">New Posts</h6>
+                    <hr style="margin: 0"/>
+                    <div id="postContainer">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" style="padding-right: 8px;">
+                <div class="content">
+                    <h6 class="sectionTitle">Top Posts</h6>
+                    <hr style="margin: 0"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+
+<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-analytics.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+<script src="/javascripts/firebaseInit.js"></script>
+<script src="/javascripts/login.js"></script>
+<script src="/javascripts/home_page.js"></script>
+<script src="/javascripts/style.js"></script>
+</body>
+</html>

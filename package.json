@@ -1,0 +1,26 @@
+{
+  "name": "ecoso",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.3.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-firebase-middleware": "^3.0.0",
+    "express-session": "^1.17.0",
+    "firebase": "^7.2.3",
+    "firebase-admin": "^8.6.1",
+    "http-errors": "~1.6.3",
+    "material-components-web": "^3.2.0",
+    "morgan": "~1.9.1",
+    "node-persist": "^3.0.5",
+    "nodemon": "^1.19.4",
+    "socket.io": "^2.3.0"
+  }
+}

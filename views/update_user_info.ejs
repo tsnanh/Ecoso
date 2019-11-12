@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <title>Update your information</title>
+    <link rel='stylesheet' href='/stylesheets/home_page.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script src="/bootstrap/js/bootstrap.js"></script>
+    <link rel="shortcut icon" href="/images/ecoso_logo.png"/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/javascripts/navbar.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="form-container">
+            <h1 class="text-center title">Update your information</h1>
+            <form id="updateForm" action="" method="post">
+                <div class="inputDiv">
+                    <h6>Profile Photo:</h6>
+                    <img class="d-block mx-auto rounded-circle" src="/images/avatar-icon.png" id="imgPreview" style="width: 150px; height: 150px; background-color: white" />
+                    <input id="profilePhoto"
+                           onchange="document.getElementById('imgPreview').src = window.URL.createObjectURL(this.files[0])"
+                           type="file" accept="image/*" name="profileAvatar" />
+                </div>
+                <div class="inputDiv">
+                    <h6>Date Of Birth:</h6>
+                    <input id="dateOfBirth" type="date" name="dateOfBirth" required />
+                </div>
+                <div class="inputDiv">
+                    <h6>Phone Number</h6>
+                    <input id="phoneNumber" type="text" name="phoneNumber"
+                           required maxlength="10" placeholder="Phone Number.." />
+                </div>
+                <div class="inputDiv">
+                    <h6>Address:</h6>
+                    <input id="address" type="text" name="address" placeholder="Address.." required />
+                </div>
+                <button id="updateInfo" style="font-weight: bold; padding: 16px; font-size: 16px"
+                        class="btn btn-success mx-auto d-block mt-4"
+                        type="submit">Start Using Ecoso</button>
+            </form>
+            <p id="error" style="color: red"></p>
+        </div>
+    </div>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-analytics.js"></script>
+    <script src="/javascripts/firebaseInit.js"></script>
+    <script src="/javascripts/updateUserInformation.js"></script>
+</body>
+</html>
