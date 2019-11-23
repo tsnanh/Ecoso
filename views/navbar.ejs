@@ -1,0 +1,37 @@
+
+<nav class="fixed-top">
+    <div class="menu-icon">
+        <i class="fa fa-bars fa-2x"></i>
+    </div>
+    <div class="logo">
+        <img src="/images/ecoso_logo.png" style="width: 64px;" />Ecoso
+    </div>
+    <div class="menu">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/globalChat">Global Chat</a></li>
+            <li><a href="/savedPosts">Saved Posts</a></li>
+            <li>
+                <a style="cursor: pointer;" onclick="toggle()"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="<%=avatar%>" id="dropBtn" />
+                </a>
+            </li>
+        </ul>
+        <div id="dropdown" class="dropdown-menu" aria-labelledby="dropBtn">
+            <a class="dropdown-item" style="cursor: pointer;" onclick="signOut()">Log Out</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+    function toggle() {
+        let dropdown = $("#dropdown");
+        if (dropdown.css('display').toLowerCase() === 'block') {
+            dropdown.removeClass('d-block');
+        } else if (dropdown.css('display').toLowerCase() === 'none') {
+            dropdown.addClass('d-block')
+        }
+    }
+</script>

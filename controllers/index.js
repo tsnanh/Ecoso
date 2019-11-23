@@ -1,14 +1,40 @@
 const admin = require('firebase-admin');
 
+exports.likePost = (req, res) => {
+        const postRef = admin.firestore().collection('users').doc(req.body.userID).collection('posts').doc(req.body.postID);
+        postRef.get().then(async snap => {
+            let like = await snap.data().likes.count;
+            const userRef = await postRef.collection('userLiked').doc(res.locals.uid);
+            await userRef.get().then(async snap => {
+                if (!snap.exists) {
+                    await userRef.set({uid: res.locals.uid, name: res.locals.name}).then();
+                    await postRef.update({
+                        likes: {
+                            count: like + 1,
+                        }
+                    }).then();
+                } else {
+                    await postRef.update({
+                        likes: {
+                            count: like - 1,
+                        }
+                    }).then();
+                    await userRef.delete().then();
+                }
+            });
+            await res.send();
+        });
+};
+
 exports.get_index = function(req, res) {
-    // TODO: ask teacher about 'secure:true' cookie...
+    const uid = res.locals.uid;
     const sessionCookie = req.cookies['session'] || '';
     admin.auth().verifySessionCookie(sessionCookie, true).then(decodeClaims => {
-        const uid = decodeClaims.uid;
         admin.firestore().collection('users').doc(uid).get().then(snap => {
             if (snap.exists) {
                 const avatar = snap.get('avatar');
                 res.render('home_page', {
+                    uid: uid,
                     avatar: avatar,
                     user: decodeClaims.name
                 });
@@ -19,6 +45,7 @@ exports.get_index = function(req, res) {
     }).catch( () => {
         res.render('index');
     })
+
 };
 
 exports.get_login = function (req, res)
@@ -46,6 +73,7 @@ exports.login = function (req, res) {
         res.cookie('session', sessionCookie, options);
         res.end()
     }, error => {
+        console.log(error);
         res.status(401).send('Unauthorized request!' + error);
     })
 };
@@ -56,9 +84,7 @@ exports.signOut = function (req, res) {
 };
 
 exports.getUpdateInfo = function (req, res) {
-    const session = req.cookies['session'] || '';
-    admin.auth().verifySessionCookie(session, true).then(decodeIdToken => {
-        const uid = decodeIdToken.uid;
+        const uid = res.locals.uid;
         admin.firestore().collection('users').doc(uid).get().then(snap => {
             if (snap.exists) {
                 res.redirect('/');
@@ -66,62 +92,127 @@ exports.getUpdateInfo = function (req, res) {
                 res.render('update_user_info');
             }
         });
-    }, error => {
-        res.redirect('/login');
-    });
 };
 
 exports.updateUserInfo = function (req, res) {
-    admin.auth().verifySessionCookie(req.cookies['session'], true).then(decodeIdToken => {
         const avatar = req.body.avatar;
         const dateOfBirth = req.body.dateOfBirth;
         const phoneNumber = req.body.phoneNumber;
         const address = req.body.address;
         const userData = {
-            name: decodeIdToken.name,
+            id: res.locals.uid,
+            name: res.locals.name,
             avatar: avatar,
             dateOfBirth: dateOfBirth,
             phoneNumber: phoneNumber,
-            address: address
+            address: address,
+            timeJoined: new Date().getTime()
         };
-        console.log(userData);
-        admin.firestore().collection('users').doc(decodeIdToken.uid).set(userData).then( () => {
+        const userRef = admin.firestore().collection('users').doc(decodeIdToken.uid);
+        userRef.set(userData).then( () => {
             res.redirect('/');
         });
-    }).catch(err => {
-        res.redirect('/login');
-    })
 };
 
+function getTime() {
+    const date = new Date();
+    let HH = date.getHours();
+    let MM = date.getMinutes();
+    let ss = date.getSeconds();
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = date.getFullYear();
+    return dd + '/' + mm + '/' + yyyy + ' ' + HH + ':' + MM + ':' + ss;
+}
+
 exports.createNewPost = (req, res) => {
-    const sessionCookie = req.cookies['session'] || '';
-    admin.auth().verifySessionCookie(sessionCookie, true).then(decodeClaims => {
-        const uid = decodeClaims.uid;
-        const time = req.body.timePosted;
-        const dataPost = {
-            user: uid,
-            userDisplayName: decodeClaims.name,
-            content: req.body.content,
-            image: req.body.image,
-            likes: {
-                count: 0
-            },
-            comments: {
-                count: 0
-            },
-            timePosted: new Date().getTime()
-        };
-        admin.firestore().collection('users').doc(uid)
-            .collection('posts').doc().set(dataPost).then(() => {
+        const uid = res.locals.uid;
+
+        const ref = admin.firestore().collection('users').doc(uid).collection('posts').doc();
+        admin.firestore().collection('users').doc(uid).get().then(snap => {
+            const avatar = snap.data().avatar;
+            const dataPost = {
+                id: ref.id,
+                user: uid,
+                userDisplayName: res.locals.name,
+                content: req.body.content,
+                image: req.body.image,
+                likes: {
+                    count: 0
+                },
+                comments: {
+                    count: 0
+                },
+                timePosted: new Date().getTime(),
+                time: getTime(),
+                userAvatar: avatar
+            };
+            ref.set(dataPost).then(() => {
                 res.send();
-        });
-    });
+            });
+        })
 };
 
 exports.getProfile = function (req, res) {
     const session = req.cookies['session'] || '';
-    admin.auth().verifySessionCookie(session, true).then(decodeClaims => {
+        admin.firestore().collection('users').doc(res.locals.uid).get().then(snap => {
+            if (snap.exists) {
+                res.render('profile', snap.data());
+            } else {
+                res.render('error');
+            }
+        });
+};
 
-    });
-    res.render('profile');
+exports.getPost = (req, res) => {
+    const userUID = req.params.uid;
+    const postID = req.params.postID;
+        admin.firestore().collection('users').doc(res.locals.uid).get().then(snap => {
+            const user = snap.data();
+            admin
+                .firestore()
+                .collection('users')
+                .doc(userUID)
+                .collection('posts')
+                .doc(postID)
+                .get()
+                .then(snap => {
+                    const post = snap.data();
+                    res.render('post', {post, user});
+                });
+        })
+};
+
+exports.comment = (req, res) => {
+    const userID = req.body.userID;
+    const postID = req.body.postID;
+    const content = req.body.content;
+        admin.firestore().collection('users').doc(res.locals.uid).get().then(snap => {
+            const avatar = snap.data().avatar;
+            const time = getTime();
+            const postRef = admin
+                .firestore()
+                .collection('users')
+                .doc(userID)
+                .collection('posts')
+                .doc(postID);
+            postRef.get().then(snap => {
+                postRef.update('comments', {count: snap.data().comments.count + 1});
+            });
+            postRef.collection('userComment')
+                .doc()
+                .set({
+                    avatar: avatar,
+                    content: content,
+                    name: res.locals.name,
+                    time: time,
+                    timePosted: new Date().getTime(),
+                    uid: res.locals.uid
+                });
+            res.send();
+        })
+};
+
+exports.getGlobalChat = (req, res) => {
+    res.render('chat');
 };

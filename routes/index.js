@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
-let controller = require('../controllers/index');
-let firebaseMiddleware = require('express-firebase-middleware');
-
-const admin = require('firebase-admin');
-
-router.use('/auth', firebaseMiddleware.auth);
+const express = require('express');
+const router = express.Router();
+const middleware = require('../middleware/authentication');
+const controller = require('../controllers/index');
 
 /* GET home page. */
-router.get('/', controller.get_index);
+router.get('/', middleware.auth, controller.get_index);
 router.get('/login', controller.get_login);
 router.post('/login', controller.login);
-router.post('/signOut', controller.signOut);
-router.get('/updateInfo', controller.getUpdateInfo);
-router.post('/updateInfo', controller.updateUserInfo);
-router.post('/createPost', controller.createNewPost);
-router.get('/profile', controller.getProfile);
+router.post('/signOut', middleware.auth, controller.signOut);
+router.get('/updateInfo', middleware.auth, controller.getUpdateInfo);
+router.post('/updateInfo', middleware.auth, controller.updateUserInfo);
+router.post('/createPost', middleware.auth, controller.createNewPost);
+router.get('/profile', middleware.auth, controller.getProfile);
+router.post('/likePost', middleware.auth, controller.likePost);
+router.get('/user/:uid/post/:postID', middleware.auth, controller.getPost);
+router.post('/comment', middleware.auth, controller.comment);
+router.get('/globalChat', middleware.auth, controller.getGlobalChat);
 
 module.exports = router;

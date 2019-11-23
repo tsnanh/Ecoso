@@ -5,7 +5,7 @@ function signInWithGoogle() {
         firebase.auth().currentUser.getIdToken(true).then(idToken => {
             postSessionLogin('/login', idToken);
         })
-    })
+    });
 }
 
 function postSessionLogin(url, idToken) {
@@ -32,5 +32,5 @@ function signOut() {
             }
         };
         xhr.send();
-    })
+    });
 }

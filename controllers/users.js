@@ -7,7 +7,10 @@ exports.profile = function (req, res) {
         if (uid === decodeClaims.uid) {
             res.redirect('/profile');
         } else {
-            res.render('profile', {uid: uid});
+            admin.firestore().collection('users').doc(uid).get().then(snap => {
+                const userData = snap.data();
+                res.render('profile', userData);
+            });
         }
     }, err => {
         res.redirect('/login');

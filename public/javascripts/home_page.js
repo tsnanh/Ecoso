@@ -3,6 +3,15 @@ const taContentPost = document.getElementById('taPost');
 const imagePreview = document.getElementById('imgPreview');
 const firestore = firebase.firestore();
 let image;
+let lastVisible = null;
+
+$("#dropBtn").click(function(){
+    console.log('cac');
+    $('#dropdown').css('display', 'block');
+}, function(){
+    // change to any color that was previously used.
+    $('#dropdown').css('display', 'none');
+});
 
 inputImage.addEventListener('change', event => {
     image = event.target.files[0];
@@ -59,79 +68,147 @@ function getCurrentTimeString() {
     return yyyy + MM + dd + hh + mm + ss;
 }
 
-// database.ref('posts').once('value', snap => {
-//     const list = snap.val();
-//     for (let key in list) {
-//         if (!list.hasOwnProperty(key)) {
-//             continue;
-//         }
-//         let object = list[key];
-//         showPost(object);
-//     }
-// });
-
-
-// firestore.collectionGroup('posts').get().then(querySnap => {
-//     querySnap.forEach(doc => {
-//
-//     })
-// });
-
-
-function getDateDiff(timePosted) {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const timePost = new Date(timePosted);
-    const day = days[timePost.getDay()];
-    return day + ' ' + timePost.getDate() + '/' + (timePost.getMonth() + 1) + '/' + timePost.getFullYear();
-}
-
-
-firebase.auth().onAuthStateChanged(user => {
-
-});
-
-let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'asc').limit(50);
+let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'desc').limit(10);
 let observer = doc.onSnapshot(querySnap => {
+    lastVisible = querySnap.docs[querySnap.docs.length - 1];
     querySnap.docChanges().forEach(change => {
         if (change.type === 'added') {
-            console.log('add');
-            const object = change.doc.data();
-            const time = getDateDiff(object.timePosted);
-            console.log(object);
-            firebase.firestore().collection('users').doc(object.user).get().then(snap => {
-                const poster = snap.data();
-                if (object.image) {
-                    $('#postContainer').prepend('<div class="post" id="' + object.id + '">' +
-                        '<img class="mx-auto d-block" src="' + object.image + '" />' +
-                        '<div class="postContent d-flex">' +
-                        '<img class="rounded-circle" src="' + poster.avatar + '" />' +
-                        '<div class="postContentInside ml-3">' +
-                        '<a href="/users/' + object.user + '">' + poster.name + '</a>' +
-                        '<span class="ml-2">' + time + '</span>' +
-                        '<p>' + object['content'] + '</p>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>');
-                } else {
-                    $('#postContainer').prepend('<div class="post" id="' + object.key + '">' +
-                        '<div class="postContent d-flex">' +
-                        '<img class="rounded-circle" src="' + poster.avatar + '" />' +
-                        '<div class="postContentInside ml-3">' +
-                        '<a href="/users/' + object.user + '">' + poster.name + '</a>' +
-                        '<span class="ml-2">' + time + '</span>' +
-                        '<p>' + object['content'] + '</p>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>');
-                }
-            });
+            const post = change.doc.data();
+            prependPost(post);
         }
         if (change.type === 'modified') {
             console.log('edit');
+            const post = change.doc.data();
+            $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
         }
         if (change.type === 'removed') {
             console.log('remove');
+            const remove = change.doc.data();
+            $('html').find('#' + remove.id).remove();
 
         }
+    })
+});
+
+// load more post when user scroll to bottom hihihihihihihi
+$(window).scroll(function() {
+    if($(window).scrollTop() + $(window).height() === $(document).height()) {
+        console.log(lastVisible);
+        let next = firestore.collectionGroup("posts").orderBy("timePosted", 'desc').startAfter(lastVisible).limit(20);
+        next.onSnapshot(querySnap => {
+            lastVisible = querySnap.docs[querySnap.docs.length-1];
+            querySnap.docChanges().forEach(change => {
+                if (change.type === 'added') {
+                    appendPost(change.doc.data())
+                }
+                if (change.type === 'modified') {
+                    console.log('edit');
+                    const post = change.doc.data();
+                    $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
+                }
+                if (change.type === 'removed') {
+                    console.log('remove');
+                    const remove = change.doc.data();
+                    $('html').find('#' + remove.id).remove();
+                }
+            })
+        })
+    }
+});
+
+function prependPost(post) {
+    const time = getDateDiff(post.timePosted);
+    firebase.firestore().collection('users').doc(post.user).get().then(snap => {
+        $('#postContainer').prepend('<div class="post" id="' + post.id + '">' +
+            '<img class="mx-auto d-block" src="' + post.image + '" />' +
+            '<div class="postContent d-flex">' +
+            '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
+            '<div class="postContentInside ml-3">' +
+            '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
+            '<span class="ml-2">' + time + '</span>' +
+            '<p>' + post.content + '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
+            '<div class="row text-center p-2 mb-2">' +
+            '<div class="col-6"><a id="like" style="color:darkgreen;cursor: pointer" onclick="likePost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>\n' +
+            '<div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
+            '</div>' +
+            '</div>');
+    })
+}function appendPost(post) {
+    const time = getDateDiff(post.timePosted);
+    firebase.firestore().collection('users').doc(post.user).get().then(snap => {
+        $('#postContainer').append('<div class="post" id="' + post.id + '">' +
+            '<img class="mx-auto d-block" src="' + post.image + '" />' +
+            '<div class="postContent d-flex">' +
+            '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
+            '<div class="postContentInside ml-3">' +
+            '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
+            '<span class="ml-2">' + time + '</span>' +
+            '<p>' + post.content + '</p>' +
+            '</div>' +
+            '</div>' +
+            '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
+            '<div class="row text-center p-2 mb-2">' +
+            '<div class="col-6"><a id="like" style="color:darkgreen;cursor: pointer" onclick="likePost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>\n' +
+            '<div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
+            '</div>' +
+            '</div>');
+    })
+}
+
+function likePost(postID, userID) {
+    document.getElementById("like").style.pointerEvents = 'none';
+    $.ajax({
+        method: 'POST',
+        url: '/likePost',
+        data: {postID: postID, userID: userID},
+    }).done(() => {
+        document.getElementById("like").style.pointerEvents = 'auto';
+    });
+}
+
+function commentPost(postID, userID) {
+    window.open('/user/' + userID + '/post/' + postID, '_self');
+}
+
+// start running after page loaded
+$(window).bind('load', () => {
+    // observer user's tree count
+    setTimeout(() => {
+        let elements = document.getElementsByTagName('h1');
+        let uid = elements[0].getAttribute('id');
+        firestore.collection('users').doc(uid).collection('posts').onSnapshot(snap => {
+            let postCount = 0, tree = 0;
+            snap.docChanges().forEach(doc => {
+                if (doc.type === 'added' || doc.type === 'modified') {
+                    const post = doc.doc.data();
+                    tree += Math.round(post.likes.count / 100000);
+                    tree += Math.round(post.comments.count / 100000);
+                    if (post.likes.count > 500) {
+                        postCount++;
+                    }
+                }
+            });
+            tree += Math.round(postCount / 5000);
+            $('#yourTree').text(tree);
+        });
+    }, 5000);
+
+    firestore.collectionGroup('posts').onSnapshot(snap => {
+        let postCount = 0, tree = 0;
+        snap.docChanges().forEach(doc => {
+            if (doc.type === 'added' || doc.type === 'modified') {
+                const post = doc.doc.data();
+                tree += Math.round(post.likes.count / 100000);
+                tree += Math.round(post.comments.count / 100000);
+                if (post.likes.count > 500) {
+                    postCount++;
+                }
+            }
+        });
+        tree += Math.round(postCount / 5000);
+        $('#totalTree').text(tree);
     })
 });

@@ -3,7 +3,6 @@ html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
     background: url("../images/88891.webp") no-repeat fixed;
     background-size: cover;
     font-family: 'Lucida Grande', sans-serif;
@@ -12,6 +11,7 @@ html, body {
     background: rgba(0, 0, 0, 0.45) no-repeat fixed;
     width: 100%;
     height: max-content;
+
 }
 header {
     width: 100%;
@@ -20,7 +20,6 @@ header {
     /*height: 15vh;*/
     /*height: auto;*/
     background: rgba(0, 0, 0, 0.45) no-repeat fixed;
-    width: 100%;
     height: max-content;
 }
 
@@ -194,7 +193,7 @@ nav ul li a {
     padding-right: 200px;
 }
 
-#avatarNavbar {
+#dropBtn {
     width: 48px;
     height: auto;
 }
@@ -310,7 +309,9 @@ nav ul li a {
 
 .post {
     border-radius: 6px;
-    margin: 16px;
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
     -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
     -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
@@ -318,8 +319,7 @@ nav ul li a {
 
 .post img {
     max-width: inherit;
-    max-height: 300px;
-    width: auto;
+    width: 100%;
     height: auto;
 }
 .postContent {
@@ -375,3 +375,38 @@ nav ul li a {
     /*Without this, clicking will make it sticky*/
     pointer-events: none;
 }
+
+#avatarProfile {
+    top: 220px;
+    width: 180px;
+    height: auto;
+    background: #353535;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 150px;
+}
+.pre-fix {
+    padding-left: 260px;
+    padding-top: 24px;
+}
+
+#userDisplayName {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#infoWrapper p {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+#infoWrapper {
+    padding-bottom: 24px;
+}
+
+#infoWrapper i {
+    padding: 0;
+    margin: 0;
+}
+

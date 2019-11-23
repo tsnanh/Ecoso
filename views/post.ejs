@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <title>Ecoso - Home</title>
+    <link rel='stylesheet' href='/stylesheets/home_page.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script src="/bootstrap/js/bootstrap.js"></script>
+    <link rel="shortcut icon" href="/images/ecoso_logo.png"/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/javascripts/navbar.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+</head>
+<body>
+<div class="wrapper">
+    <nav class="fixed-top">
+        <div class="menu-icon">
+            <i class="fa fa-bars fa-2x"></i>
+        </div>
+        <div class="logo">
+            <img src="/images/ecoso_logo.png" style="width: 64px;"  alt="ecoso_logo"/>Ecoso
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/globalChat">Global Chat</a></li>
+                <li><a href="/savedPosts">Saved Posts</a></li>
+                <li>
+                    <a style="cursor: pointer;" onclick="toggle()"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="<%=user.avatar%>" id="dropBtn"  alt="user_avatar"/>
+                    </a>
+                </li>
+            </ul>
+            <div id="dropdown" class="dropdown-menu" aria-labelledby="dropBtn">
+                <a class="dropdown-item" style="cursor: pointer;" onclick="signOut()">Log Out</a>
+            </div>
+        </div>
+    </nav>
+    <script>
+        function toggle() {
+            let dropdown = $("#dropdown");
+            if (dropdown.css('display').toLowerCase() === 'block') {
+                dropdown.removeClass('d-block');
+            } else if (dropdown.css('display').toLowerCase() === 'none') {
+                dropdown.addClass('d-block')
+            }
+        }
+    </script>
+
+    <div class="content container">
+        <h6 id="titlePosts" class="sectionTitle">Post</h6>
+        <hr style="margin: 0"/>
+        <div id="postContainer">
+            <div class="post">
+                <img class="mx-auto d-block" src="<%=post.image%>" alt="image_post"/>
+                <div class="postContent d-flex">
+                    <img class="rounded-circle" src="<%=user.avatar%>" alt="user_avatar" />
+                    <div class="postContentInside ml-3">
+                        <a href="/users/<%=user.uid%>"><%=user.name %></a>
+                        <span class="ml-2"><%=post.time%></span>
+                        <p id="content"><%=post.content%></p>
+                    </div>
+                </div>
+                <div id="likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  <%=post.likes.count%><a class="float-right" onclick=""><i class="fa fa-comment"></i>&nbsp;<%=post.comments.count%></a></div>
+                <div class="row text-center p-2 mb-2">
+                    <div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="likePost()" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>
+                    <div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentPost()" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>
+                </div>
+            </div>
+
+            <div class="commentContainerHeader" style="padding: 0 32px 0 32px">
+                <div class="row p-3">
+                    <img style="width: 80px;height: 80px;background: white;" class="rounded-circle" src="<%=user.avatar%>"  alt="user_avatar"/>
+                    <textarea class="col-10" style="width: 100%;font-size: 16px;border: 1px solid darkgreen; border-radius:8px;resize: none;color: black;" id="commentText" placeholder="Type your comment..."></textarea>
+                    <div class="col-1"><button class="d-block mx-auto btn btn-success" onclick="comment()">Post</button></div>
+                </div>
+                <h6 id="titlePosts" class="sectionTitle">Comments</h6>
+                <hr style="margin: 0"/>
+            </div>
+            <div id="cmt" style="padding: 0 32px 0 32px;" class="commentContainer">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+
+<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-analytics.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
+<script src="/javascripts/firebaseInit.js"></script>
+<script src="/javascripts/login.js"></script>
+<script src="/javascripts/utils.js"></script>
+<script src="/javascripts/post.js"></script>
+</body>
+</html>

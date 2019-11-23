@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="../public/stylesheets/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../public/stylesheets/home_page.css"/>
     <title>Ecoso - Home</title>
     <link rel='stylesheet' href='/stylesheets/home_page.css' />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
@@ -17,36 +19,26 @@
 </head>
 <body>
 <div class="wrapper">
-    <nav class="fixed-top">
-        <div class="menu-icon">
-            <i class="fa fa-bars fa-2x"></i>
-        </div>
-        <div class="logo">
-            <img src="/images/ecoso_logo.png" style="width: 64px;"  alt="ecosoLogo"/>Ecoso
-        </div>
-        <div class="menu">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/posts">Posts</a></li>
-                <li><a href="/messenger">Public Chat</a></li>
-                <li><a href="/saved">Saved Posts</a></li>
-                <li>
-                    <a style="cursor: pointer;" onclick="signOut()" id="dropdownMenuButton"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="<%%>" id="avatarNavbar"  alt="avatar"/>
-                    </a>
-                </li>
-            </ul>
-            <div id="dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+    <% include ./navbar %>
+
+    <div class="container content" style="margin-top: 20rem">
+        <img class="rounded-circle mx-auto d-block" id="avatarProfile" src="<%=avatar%>" alt="profileAvatar" />
+        <div class="pre-fix">
+            <h2 id="userDisplayName"><%=name%></h2>
+            <div id="infoWrapper">
+                <p id="userID"><i class="material-icons">perm_identity</i>&nbsp;&nbsp;ID: <%=id%></p>
+                <p><i class="material-icons">cake</i>&nbsp;&nbsp;Date Of Birth: <%=dateOfBirth%></p>
+                <p><i class="material-icons">phone</i>&nbsp;&nbsp;Phone Number: <%=phoneNumber%></p>
+                <p><i class="material-icons">room</i>&nbsp;&nbsp;Address: <%=address%></p>
             </div>
         </div>
-    </nav>
+    </div>
 
-    <div class="container content">
-        <img src="<%=avatar%>"
+    <div class="content2 container">
+        <h6 id="titlePosts" class="sectionTitle"><%=name%>'s Posts</h6>
+        <hr style="margin: 0"/>
+        <div id="postContainer">
+        </div>
     </div>
 </div>
 <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
@@ -63,6 +55,7 @@
 <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
 <script src="/javascripts/firebaseInit.js"></script>
 <script src="/javascripts/login.js"></script>
+<script src="/javascripts/utils.js"></script>
 <script src="/javascripts/profile.js"></script>
 </body>
 </html>

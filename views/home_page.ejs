@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="vi">
 <head>
     <title>Ecoso - Home</title>
     <link rel='stylesheet' href='/stylesheets/home_page.css' />
@@ -16,36 +16,10 @@
           rel="stylesheet">
 </head>
 <body>
-<div class="wrapper">
-    <nav class="fixed-top">
-        <div class="menu-icon">
-            <i class="fa fa-bars fa-2x"></i>
-        </div>
-        <div class="logo">
-            <img src="/images/ecoso_logo.png" style="width: 64px;" />Ecoso
-        </div>
-        <div class="menu">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/posts">Posts</a></li>
-                <li><a href="/publicChat">Public Chat</a></li>
-                <li><a href="/savedPosts">Saved Posts</a></li>
-                <li>
-                    <a style="cursor: pointer;" id="dropdownMenuButton"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="<%=avatar%>" id="avatarNavbar" />
-                    </a>
-                </li>
-            </ul>
-            <div id="dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </div>
-    </nav>
+<div class="wrapper" id="scroll">
+    <% include ./navbar %>
     <div class="container helloUser">
-        <h1>Welcome <%=user%>!</h1>
+        <h1 id="<%=uid%>">Welcome <%=user%>!</h1>
     </div>
     <div class="container">
         <div class="row">
@@ -82,13 +56,20 @@
                     <h6 class="sectionTitle">New Posts</h6>
                     <hr style="margin: 0"/>
                     <div id="postContainer">
+
                     </div>
                 </div>
             </div>
             <div class="col-lg-4" style="padding-right: 8px;">
                 <div class="content">
-                    <h6 class="sectionTitle">Top Posts</h6>
+                    <h6 class="sectionTitle">Number of trees planted!</h6>
                     <hr style="margin: 0"/>
+                    <div class="p-3">
+                        <h6 style="font-weight: bold; padding: 0; margin: 0">Your Trees:</h6>
+                        <p id="yourTree">Loading...</p>
+                        <h6 style="font-weight: bold; padding: 0; margin: 0">Total Tree Planted:</h6>
+                        <p id="totalTree">Loading...</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,7 +89,7 @@
 <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
 <script src="/javascripts/firebaseInit.js"></script>
 <script src="/javascripts/login.js"></script>
+<script src="/javascripts/utils.js"></script>
 <script src="/javascripts/home_page.js"></script>
-<script src="/javascripts/style.js"></script>
 </body>
 </html>
