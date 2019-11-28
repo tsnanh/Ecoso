@@ -68,8 +68,53 @@ function getCurrentTimeString() {
     return yyyy + MM + dd + hh + mm + ss;
 }
 
-let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'desc').limit(10);
-let observer = doc.onSnapshot(querySnap => {
+
+function handleActivitySubscription(snapshot, counter) {
+    const initialLoad = counter === 1;
+    lastVisible = snapshot.docs[snapshot.docs.length - 1];
+    console.log(lastVisible)
+    snapshot.docChanges().forEach(function(change) {
+        if (initialLoad) {
+            appendPost(change.doc.data());
+        } else {
+            if (change.type === 'added') {
+                const post = change.doc.data();
+                prependPost(post);
+            }
+            if (change.type === 'modified') {
+                console.log('edit');
+                const post = change.doc.data();
+                $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
+            }
+            if (change.type === 'removed') {
+                console.log('remove');
+                const remove = change.doc.data();
+                $('html').find('#' + remove.id).remove();
+
+            }
+        }
+    });
+}
+
+const handleActivitySubscriptionWithCounter =
+    createFnCounter(handleActivitySubscription, 0);
+
+
+function createFnCounter(fn, invokeBeforeExecution) {
+    let count = 0;
+    return (args) => {
+        count++;
+        if (count <= invokeBeforeExecution) {
+            return true;
+        } else {
+            return fn(args, count);
+        }
+    };
+}
+
+
+let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'desc').limit(5);
+let observer = doc.onSnapshot(handleActivitySubscriptionWithCounter);/* querySnap => {
     lastVisible = querySnap.docs[querySnap.docs.length - 1];
     querySnap.docChanges().forEach(change => {
         if (change.type === 'added') {
@@ -87,32 +132,35 @@ let observer = doc.onSnapshot(querySnap => {
             $('html').find('#' + remove.id).remove();
 
         }
-    })
-});
+    }) */
+// });
 
 // load more post when user scroll to bottom hihihihihihihi
 $(window).scroll(function() {
     if($(window).scrollTop() + $(window).height() === $(document).height()) {
         console.log(lastVisible);
-        let next = firestore.collectionGroup("posts").orderBy("timePosted", 'desc').startAfter(lastVisible).limit(20);
-        next.onSnapshot(querySnap => {
-            lastVisible = querySnap.docs[querySnap.docs.length-1];
-            querySnap.docChanges().forEach(change => {
-                if (change.type === 'added') {
-                    appendPost(change.doc.data())
-                }
-                if (change.type === 'modified') {
-                    console.log('edit');
-                    const post = change.doc.data();
-                    $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
-                }
-                if (change.type === 'removed') {
-                    console.log('remove');
-                    const remove = change.doc.data();
-                    $('html').find('#' + remove.id).remove();
-                }
+        if (lastVisible) {
+            let next = firestore.collectionGroup("posts").orderBy("timePosted", 'desc').startAfter(lastVisible).limit(20);
+            next.onSnapshot(querySnap => {
+                lastVisible = querySnap.docs[querySnap.docs.length - 1];
+                querySnap.docChanges().forEach(change => {
+                    if (change.type === 'added') {
+                        appendPost(change.doc.data())
+                        console.log(change.doc.data())
+                    }
+                    if (change.type === 'modified') {
+                        console.log('edit');
+                        const post = change.doc.data();
+                        $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
+                    }
+                    if (change.type === 'removed') {
+                        console.log('remove');
+                        const remove = change.doc.data();
+                        $('html').find('#' + remove.id).remove();
+                    }
+                })
             })
-        })
+        }
     }
 });
 
@@ -136,7 +184,8 @@ function prependPost(post) {
             '</div>' +
             '</div>');
     })
-}function appendPost(post) {
+}
+function appendPost(post) {
     const time = getDateDiff(post.timePosted);
     firebase.firestore().collection('users').doc(post.user).get().then(snap => {
         $('#postContainer').append('<div class="post" id="' + post.id + '">' +
@@ -179,36 +228,16 @@ $(window).bind('load', () => {
     setTimeout(() => {
         let elements = document.getElementsByTagName('h1');
         let uid = elements[0].getAttribute('id');
-        firestore.collection('users').doc(uid).collection('posts').onSnapshot(snap => {
-            let postCount = 0, tree = 0;
-            snap.docChanges().forEach(doc => {
-                if (doc.type === 'added' || doc.type === 'modified') {
-                    const post = doc.doc.data();
-                    tree += Math.round(post.likes.count / 100000);
-                    tree += Math.round(post.comments.count / 100000);
-                    if (post.likes.count > 500) {
-                        postCount++;
-                    }
-                }
-            });
-            tree += Math.round(postCount / 5000);
-            $('#yourTree').text(tree);
+        firestore.collection('users').doc(uid).onSnapshot(snap => {
+            $('#yourTree').text(snap.data().tree)
         });
     }, 5000);
 
-    firestore.collectionGroup('posts').onSnapshot(snap => {
-        let postCount = 0, tree = 0;
-        snap.docChanges().forEach(doc => {
-            if (doc.type === 'added' || doc.type === 'modified') {
-                const post = doc.doc.data();
-                tree += Math.round(post.likes.count / 100000);
-                tree += Math.round(post.comments.count / 100000);
-                if (post.likes.count > 500) {
-                    postCount++;
-                }
-            }
-        });
-        tree += Math.round(postCount / 5000);
+    firestore.collectionGroup('users').onSnapshot(snap => {
+        let tree = 0
+        snap.forEach(doc => {
+            tree += doc.data().tree
+        })
         $('#totalTree').text(tree);
     })
 });

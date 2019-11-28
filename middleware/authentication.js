@@ -8,7 +8,7 @@ exports.auth = (req, res, next) => {
                 res.locals.name = decodeClaims.name;
                 next()
             } else {
-                res.redirect('/updateUserInfo');
+                res.redirect('/updateInfo');
             }
         });
     }).catch(err => {

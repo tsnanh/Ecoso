@@ -1,8 +1,9 @@
 const admin = require('firebase-admin');
 
-exports.getAdminPage = (req, res) => {
-    const session = req.cookies['session'];
-    admin.auth().verifySessionCookie(session, true).then(decodeClaims => {
-
-    })
+exports.getDashboard = (req, res) => {
+    res.render('admin/dashboard');
 };
+
+exports.getUserManagement = (req, res) => {
+    res.render('admin/user_management');
+}

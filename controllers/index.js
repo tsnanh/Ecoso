@@ -84,34 +84,45 @@ exports.signOut = function (req, res) {
 };
 
 exports.getUpdateInfo = function (req, res) {
-        const uid = res.locals.uid;
-        admin.firestore().collection('users').doc(uid).get().then(snap => {
+    const session = req.cookies['session'] || '';
+    admin.auth().verifySessionCookie(session, true).then(decodeClaims => {
+        admin.firestore().collection('users').doc(decodeClaims.uid).get().then(snap => {
             if (snap.exists) {
                 res.redirect('/');
             } else {
                 res.render('update_user_info');
             }
         });
+    })
 };
 
 exports.updateUserInfo = function (req, res) {
-        const avatar = req.body.avatar;
+    const session = req.cookies['session'] || '';
+    admin.auth().verifySessionCookie(session, true).then(async decodeClaims => {
+        const avatar = await req.body.avatar;
         const dateOfBirth = req.body.dateOfBirth;
         const phoneNumber = req.body.phoneNumber;
         const address = req.body.address;
         const userData = {
-            id: res.locals.uid,
-            name: res.locals.name,
+            id: decodeClaims.uid,
+            name: decodeClaims.name,
             avatar: avatar,
             dateOfBirth: dateOfBirth,
             phoneNumber: phoneNumber,
             address: address,
-            timeJoined: new Date().getTime()
+            timeJoined: new Date().getTime(),
+            isAdmin: false,
+            tree: 0,
+            postCount: 0
         };
-        const userRef = admin.firestore().collection('users').doc(decodeIdToken.uid);
-        userRef.set(userData).then( () => {
+        const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
+        await userRef.set(userData).then(() => {
             res.redirect('/');
         });
+    }).catch(err => {
+        console.log(err)
+        res.redirect('/login')
+    })
 };
 
 function getTime() {
@@ -154,14 +165,13 @@ exports.createNewPost = (req, res) => {
 };
 
 exports.getProfile = function (req, res) {
-    const session = req.cookies['session'] || '';
-        admin.firestore().collection('users').doc(res.locals.uid).get().then(snap => {
-            if (snap.exists) {
-                res.render('profile', snap.data());
-            } else {
-                res.render('error');
-            }
-        });
+    admin.firestore().collection('users').doc(res.locals.uid).get().then(snap => {
+        if (snap.exists) {
+            res.render('profile', snap.data());
+        } else {
+            res.render('error');
+        }
+    });
 };
 
 exports.getPost = (req, res) => {
