@@ -6,6 +6,7 @@ exports.auth = (req, res, next) => {
             if (snap.exists) {
                 res.locals.uid = decodeClaims.uid;
                 res.locals.name = decodeClaims.name;
+                res.locals.permission = snap.get('isAdmin');
                 next()
             } else {
                 res.redirect('/updateInfo');

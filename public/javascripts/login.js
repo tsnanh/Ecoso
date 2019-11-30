@@ -24,7 +24,7 @@ function postSessionLogin(url, idToken) {
 function signOut() {
     firebase.auth().signOut().then(promise => {
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '/signOut', true);
+        xhr.open('GET', '/signOut', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {

@@ -6,5 +6,9 @@ const middleware = require('../middleware/admin_authentication')
 router.get('/', middleware.adminAuth, controller.getDashboard);
 router.get('/dashboard', middleware.adminAuth, controller.getDashboard)
 router.get('/usermanagement', middleware.adminAuth, controller.getUserManagement);
+router.post('/removeUser', middleware.adminAuth, controller.removeUser)
+router.get('/userslocation', middleware.adminAuth, controller.getUsersLocation);
+router.get('/postmanagement', middleware.adminAuth, controller.getPostManagement);
+router.post('/removePost', middleware.adminAuth, controller.removePost);
 
 module.exports = router;

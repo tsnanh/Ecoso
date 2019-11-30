@@ -36,7 +36,7 @@ exports.get_index = function(req, res) {
                 res.render('home_page', {
                     uid: uid,
                     avatar: avatar,
-                    user: decodeClaims.name
+                    user: decodeClaims.name,
                 });
             } else {
                 res.redirect('/updateInfo');
@@ -103,22 +103,45 @@ exports.updateUserInfo = function (req, res) {
         const dateOfBirth = req.body.dateOfBirth;
         const phoneNumber = req.body.phoneNumber;
         const address = req.body.address;
-        const userData = {
-            id: decodeClaims.uid,
-            name: decodeClaims.name,
-            avatar: avatar,
-            dateOfBirth: dateOfBirth,
-            phoneNumber: phoneNumber,
-            address: address,
-            timeJoined: new Date().getTime(),
-            isAdmin: false,
-            tree: 0,
-            postCount: 0
-        };
-        const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
-        await userRef.set(userData).then(() => {
-            res.redirect('/');
-        });
+        const latitude = req.body.latitude;
+        const longitude = req.body.longitude;
+        if (latitude && longitude) {
+            const userData = {
+                id: decodeClaims.uid,
+                name: decodeClaims.name,
+                avatar: avatar,
+                dateOfBirth: dateOfBirth,
+                phoneNumber: phoneNumber,
+                address: address,
+                timeJoined: new Date().getTime(),
+                isAdmin: false,
+                tree: 0,
+                postCount: 0,
+                latitude: latitude,
+                longitude: longitude
+            };
+            const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
+            await userRef.set(userData).then(() => {
+                res.redirect('/');
+            });
+        } else {
+            const userData = {
+                id: decodeClaims.uid,
+                name: decodeClaims.name,
+                avatar: avatar,
+                dateOfBirth: dateOfBirth,
+                phoneNumber: phoneNumber,
+                address: address,
+                timeJoined: new Date().getTime(),
+                isAdmin: false,
+                tree: 0,
+                postCount: 0
+            };
+            const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
+            await userRef.set(userData).then(() => {
+                res.redirect('/');
+            });
+        }
     }).catch(err => {
         console.log(err)
         res.redirect('/login')

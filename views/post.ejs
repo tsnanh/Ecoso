@@ -53,7 +53,7 @@
         }
     </script>
 
-    <div class="content container">
+    <div class="content container" style="max-width: 959px; min-width: 640px;">
         <h6 id="titlePosts" class="sectionTitle">Post</h6>
         <hr style="margin: 0"/>
         <div id="postContainer">
@@ -75,10 +75,10 @@
             </div>
 
             <div class="commentContainerHeader" style="padding: 0 32px 0 32px">
-                <div class="row p-3">
-                    <img style="width: 80px;height: 80px;background: white;" class="rounded-circle" src="<%=user.avatar%>"  alt="user_avatar"/>
-                    <textarea class="col-10" style="width: 100%;font-size: 16px;border: 1px solid darkgreen; border-radius:8px;resize: none;color: black;" id="commentText" placeholder="Type your comment..."></textarea>
-                    <div class="col-1"><button class="d-block mx-auto btn btn-success" onclick="comment()">Post</button></div>
+                <div class="d-flex justify-content-between">
+                    <img style="width: 80px;height: 80px;background: white;vertical-align: baseline" class="rounded-circle" src="<%=user.avatar%>"  alt="user_avatar"/>
+                    <textarea style="width: 700px;font-size: 16px;border: 1px solid darkgreen; border-radius:8px;resize: none;color: black; padding: 8px" id="commentText" placeholder="Type your comment..."></textarea>
+                    <button style="vertical-align: top" class="btn btn-success" onclick="comment()">Post</button>
                 </div>
                 <h6 id="titlePosts" class="sectionTitle">Comments</h6>
                 <hr style="margin: 0"/>

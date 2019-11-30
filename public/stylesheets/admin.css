@@ -1,0 +1,89 @@
+.post img {
+    max-width: inherit;
+    width: 100%;
+    height: auto;
+}
+.postContent {
+    padding: 16px;
+    background: lightgreen;
+    color: white;
+    border-radius: 6px;
+}
+.postContent img {
+    width: 80px;
+    height: 80px;
+    background: white;
+}
+.postContentInside span {
+    font-size: 12px;
+    color: lightgray;
+}
+
+.postContentInside a {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.postContentInside a:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
+.postContentInside p {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+#postContainer {
+    padding-bottom: 4px;
+}.post {
+     border-radius: 6px;
+     margin-top: 48px;
+     margin-left: 16px;
+     margin-right: 16px;
+     -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+     -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+     box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+ }
+
+.post img {
+    max-width: inherit;
+    width: 100%;
+    height: auto;
+}
+.postContent {
+    padding: 16px;
+    background: #0d4b19;
+    color: white;
+    border-radius: 6px;
+}
+.postContent img {
+    width: 80px;
+    height: 80px;
+    background: white;
+}
+.postContentInside span {
+    font-size: 12px;
+    color: lightgray;
+}
+
+.postContentInside a {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.postContentInside a:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
+.postContentInside p {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+#postContainer {
+    padding-bottom: 4px;
+}

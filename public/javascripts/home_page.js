@@ -72,14 +72,13 @@ function getCurrentTimeString() {
 function handleActivitySubscription(snapshot, counter) {
     const initialLoad = counter === 1;
     lastVisible = snapshot.docs[snapshot.docs.length - 1];
-    console.log(lastVisible)
-    snapshot.docChanges().forEach(function(change) {
+    snapshot.docChanges().forEach(async function(change) {
         if (initialLoad) {
-            appendPost(change.doc.data());
+            await appendPost(change.doc.data());
         } else {
-            if (change.type === 'added') {
-                const post = change.doc.data();
-                prependPost(post);
+            if (await change.type === 'added') {
+                const post = await change.doc.data();
+                await prependPost(post);
             }
             if (change.type === 'modified') {
                 console.log('edit');
@@ -90,7 +89,6 @@ function handleActivitySubscription(snapshot, counter) {
                 console.log('remove');
                 const remove = change.doc.data();
                 $('html').find('#' + remove.id).remove();
-
             }
         }
     });
@@ -113,7 +111,7 @@ function createFnCounter(fn, invokeBeforeExecution) {
 }
 
 
-let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'desc').limit(5);
+let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'desc').limit(20);
 let observer = doc.onSnapshot(handleActivitySubscriptionWithCounter);/* querySnap => {
     lastVisible = querySnap.docs[querySnap.docs.length - 1];
     querySnap.docChanges().forEach(change => {
@@ -143,9 +141,9 @@ $(window).scroll(function() {
             let next = firestore.collectionGroup("posts").orderBy("timePosted", 'desc').startAfter(lastVisible).limit(20);
             next.onSnapshot(querySnap => {
                 lastVisible = querySnap.docs[querySnap.docs.length - 1];
-                querySnap.docChanges().forEach(change => {
+                querySnap.docChanges().forEach(async change => {
                     if (change.type === 'added') {
-                        appendPost(change.doc.data())
+                        await appendPost(change.doc.data())
                         console.log(change.doc.data())
                     }
                     if (change.type === 'modified') {
@@ -185,10 +183,10 @@ function prependPost(post) {
             '</div>');
     })
 }
-function appendPost(post) {
+async function appendPost(post) {
     const time = getDateDiff(post.timePosted);
-    firebase.firestore().collection('users').doc(post.user).get().then(snap => {
-        $('#postContainer').append('<div class="post" id="' + post.id + '">' +
+    firebase.firestore().collection('users').doc(post.user).get().then(async snap => {
+        await $('#postContainer').append('<div class="post" id="' + post.id + '">' +
             '<img class="mx-auto d-block" src="' + post.image + '" />' +
             '<div class="postContent d-flex">' +
             '<img class="rounded-circle" src="' + post.userAvatar + '" />' +

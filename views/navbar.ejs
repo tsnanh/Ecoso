@@ -20,7 +20,10 @@
             </li>
         </ul>
         <div id="dropdown" class="dropdown-menu" aria-labelledby="dropBtn">
-            <a class="dropdown-item" style="cursor: pointer;" onclick="signOut()">Log Out</a>
+            <% if (permission) { %>
+            <a class="dropdown-item" href="/admin/dashboard" style="cursor: pointer;">Admin Dashboard</a>
+            <% } %>
+            <a class="dropdown-item" href="javascript:void(0)" onclick="signOut()">Log Out</a>
         </div>
     </div>
 </nav>

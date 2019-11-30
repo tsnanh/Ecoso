@@ -5,10 +5,10 @@ html, body {
     width: 100%;
     background: url("../images/88891.webp") no-repeat fixed;
     background-size: cover;
-    font-family: 'Lucida Grande', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 .wrapper {
-    background: rgba(0, 0, 0, 0.45) no-repeat fixed;
+    /*background: rgba(0, 0, 0, 0.45) no-repeat fixed;*/
     width: 100%;
     height: max-content;
 
@@ -78,10 +78,9 @@ nav ul {
     background: rgba(0, 0, 0, 0);
     overflow: hidden;
     color: #fff;
-    padding: 0;
     text-align: right;
     margin: 0;
-    padding-right: 40px;
+    padding: 0 40px 0 0;
     transition: 1s;
 }
 
@@ -377,18 +376,10 @@ nav ul li a {
 }
 
 #avatarProfile {
-    top: 220px;
     width: 180px;
-    height: auto;
+    height: 180px;
     background: #353535;
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    left: 150px;
-}
-.pre-fix {
-    padding-left: 260px;
-    padding-top: 24px;
+    display: inline-block;
 }
 
 #userDisplayName {
@@ -402,7 +393,7 @@ nav ul li a {
 }
 
 #infoWrapper {
-    padding-bottom: 24px;
+    /*padding-bottom: 24px;*/
 }
 
 #infoWrapper i {

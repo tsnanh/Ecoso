@@ -7,7 +7,7 @@ const controller = require('../controllers/index');
 router.get('/', middleware.auth, controller.get_index);
 router.get('/login', controller.get_login);
 router.post('/login', controller.login);
-router.post('/signOut', middleware.auth, controller.signOut);
+router.get('/signOut', middleware.auth, controller.signOut);
 router.get('/updateInfo', controller.getUpdateInfo);
 router.post('/updateInfo', controller.updateUserInfo);
 router.post('/createPost', middleware.auth, controller.createNewPost);

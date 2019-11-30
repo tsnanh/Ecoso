@@ -1,29 +1,70 @@
 const firestore = firebase.firestore()
 
+const tfSearch = document.getElementById('searchUser')
+
+const userContainer = $('#userContainer');
+
+let lastVisible = null
+/**
+ * Khong su dung duoc search, firestore chua ho tro
+ * @param data
+ */
+// tfSearch.addEventListener('input', (event) => {
+//     userContainer.empty();
+//     if (this.value === '') {
+//         firestore.collectionGroup('users').where('name', '===', this.value).get().then(snap => {
+//             snap.forEach(doc => {
+//                 const data = doc.data()
+//                 appendData(data)
+//             })
+//         })
+//     } else {
+//         getUserList()
+//     }
+// })
+
+function appendData(data) {
+    userContainer.append('<tr id="' + data.id + '">' +
+        '<td class="name">' + data.name + '</td>' +
+        '<td class="dateOfBirth">' + data.dateOfBirth + '</td>' +
+        '<td class="phoneNumber">' + data.phoneNumber + '</td>' +
+        '<td class="dateJoined">' + getDateTime(data.timeJoined) + '</td>' +
+        '<td class="address">' + data.address + '</td>' +
+        '<td class="postCount">' + data.postCount + '</td>' +
+        '<td class="font-weight-bold treeCount">' + data.tree + '</td>' +
+        '<td><a onclick="removeUser(\'' + data.id + '\')" href="javascript:void(0)" class="btn btn-success">Remove</a></td>' +
+        '</tr>')
+}
+
+function removeUser(uid) {
+    $.ajax({
+        method: 'POST',
+        data: { uid },
+        url: '/admin/removeUser',
+    }).done(() => {
+        $('#' + uid).remove();
+    })
+}
+
 function getUserList() {
     firestore
         .collectionGroup('users')
         .orderBy('name', 'asc')
         .limit(20)
         .onSnapshot(snap => {
-        const userContainer = $('#userContainer');
+            lastVisible = snap.docs[snap.docs.length - 1]
         snap.docChanges().forEach(change => {
             if (change.type === 'added') {
                 const data = change.doc.data()
-                userContainer.append('<tr id="' + data.id + '">' +
-                    '<td class="name">' + data.name + '</td>' +
-                    '<td class="dateOfBirth">' + data.dateOfBirth + '</td>' +
-                    '<td class="phoneNumber">' + data.phoneNumber + '</td>' +
-                    '<td class="timeJoined">' + data.timeJoined + '</td>' +
-                    '<td class="address">' + data.address + '</td>' +
-                    '<td class="postCount">' + data.postCount + '</td>' +
-                    '<td class="font-weight-bold treeCount">' + data.tree + '</td>' +
-                    '</tr>')
+                appendData(data)
             }
             if (change.type === 'modified') {
                 const data = change.doc.data();
                 $('#' + data.id + '>.postCount').text(data.postCount);
                 $('#' + data.id + '>.treeCount').text(data.tree);
+                $('#' + data.id + '>.dateOfBirth').text(data.dateOfBirth);
+                $('#' + data.id + '>.phoneNumber').text(data.phoneNumber);
+                $('#' + data.id + '>.address').text(data.address);
             }
             if (change.type === 'remove') {
                 const data = change.doc.data()
@@ -33,10 +74,45 @@ function getUserList() {
     })
 }
 
+function getDateTime(timestamp) {
+    let date = new Date(timestamp)
+    let dd = String(date.getDate()).padStart(2, '0');
+    let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = date.getFullYear();
+
+    return dd + '/' + mm + '/' + yyyy;
+}
+
 $(document).ready(() => {
     getUserList()
 })
 
-$(window).scroll(() => {
+async function lazyLoad() {
+    const scrollIsAtTheBottom = (document.documentElement.scrollHeight - window.innerHeight) === window.scrollY;
+    if (scrollIsAtTheBottom) {
+        if (lastVisible) {
+            firestore.collection('users').orderBy('name', 'asc').startAfter(lastVisible).onSnapshot(snap => {
+                lastVisible = snap.docs[snap.docs.length - 1]
+                snap.docChanges().forEach(change => {
+                    if (change.type === 'added') {
+                        appendData(change.doc.data())
+                    }
+                    if (change.type === 'modified') {
+                        const data = change.doc.data();
+                        $('#' + data.id + '>.postCount').text(data.postCount);
+                        $('#' + data.id + '>.treeCount').text(data.tree);
+                        $('#' + data.id + '>.dateOfBirth').text(data.dateOfBirth);
+                        $('#' + data.id + '>.phoneNumber').text(data.phoneNumber);
+                        $('#' + data.id + '>.address').text(data.address);
+                    }
+                    if (change.type === 'remove') {
+                        const data = change.doc.data()
+                        $('#' + data.id).remove();
+                    }
+                })
+            })
+        }
+    }
+}
 
-})
+window.addEventListener('scroll', lazyLoad)
