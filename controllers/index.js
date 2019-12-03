@@ -247,5 +247,36 @@ exports.comment = (req, res) => {
 };
 
 exports.getGlobalChat = (req, res) => {
-    res.render('chat');
+    res.render('global_chat');
+};
+
+exports.deletePost = (req, res) => {
+    admin.firestore().collection('users').doc(req.body.userID).collection('posts').doc(req.body.postID).delete().then(() => {
+        res.send();
+    });
+};
+
+exports.getAboutPage = (req, res) => {
+    res.render('about');
+};
+
+exports.sendMessage = (req, res) => {
+    const message = req.body.content;
+
+    const ref = admin
+        .firestore()
+        .collection('globalChat')
+        .doc();
+
+    ref.set({
+        message: message,
+        id: ref.id,
+        user: res.locals.uid,
+        userAvatar: res.locals.avatar,
+        userDisplayName: res.locals.name,
+        timeStamp: new Date().getTime(),
+        timeSent: getTime(),
+    }).then(() => {
+        res.send();
+    })
 };

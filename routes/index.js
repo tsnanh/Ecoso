@@ -3,7 +3,9 @@ const router = express.Router();
 const middleware = require('../middleware/authentication');
 const controller = require('../controllers/index');
 
-/* GET home page. */
+/**
+ *  TODO: DO NOT TOUCH WHAT YOU HAVE DONE!
+**/
 router.get('/', middleware.auth, controller.get_index);
 router.get('/login', controller.get_login);
 router.post('/login', controller.login);
@@ -16,5 +18,8 @@ router.post('/likePost', middleware.auth, controller.likePost);
 router.get('/user/:uid/post/:postID', middleware.auth, controller.getPost);
 router.post('/comment', middleware.auth, controller.comment);
 router.get('/globalChat', middleware.auth, controller.getGlobalChat);
+router.post('/deletePost', middleware.auth, controller.deletePost);
+router.get('/about', middleware.auth, controller.getAboutPage);
+router.post('/sendMessage', middleware.auth, controller.sendMessage);
 
 module.exports = router;

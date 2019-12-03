@@ -4,6 +4,7 @@ exports.auth = (req, res, next) => {
     admin.auth().verifySessionCookie(session, true).then(decodeClaims => {
         admin.firestore().collection('users').doc(decodeClaims.uid).get().then(snap => {
             if (snap.exists) {
+                res.locals.avatar = snap.get('avatar');
                 res.locals.uid = decodeClaims.uid;
                 res.locals.name = decodeClaims.name;
                 res.locals.permission = snap.get('isAdmin');

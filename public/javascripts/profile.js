@@ -13,6 +13,17 @@ function commentYourPost(postID, userID) {
     window.open('/user/' + userID + '/post/' + postID, '_self');
 }
 
+// function deleteYourPost(postID, userID) {
+//     document.getElementById("delete").style.pointerEvents = 'none';
+//     $.ajax({
+//         method: 'POST',
+//         url: '/deletePost',
+//         data: {postID: postID, userID: userID}
+//     }).done(() => {
+//         document.getElementById("delete").style.pointerEvents = 'auto';
+//     });
+// }
+
 $(window).bind("load", () => {
     const path = window.location.pathname;
 
@@ -50,13 +61,17 @@ $(window).bind("load", () => {
                             '<div id="' + post.id + 'likeCount" class="ml-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '</div>' +
                             '<div class="row text-center p-2 mb-2">' +
                             '<div class="col-6"><a id="like" style="color:darkgreen;cursor: pointer" onclick="likeYourPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>\n' +
-                            '<div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
+                            '<div class="col-6"><a style="color:darkgreen;" href="javascript:void(0)" onclick="commentYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
+                            // '<div class="col-4"><a id="delete" style="color:darkgreen;" href="javascript:void(0)" onclick="deleteYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="material-icons">&#xe872;</i>  Delete</a></div>\n' +
                             '</div>' +
                             '</div>');
                     })
                 } else if (change.type === 'modified') {
                     const post = change.doc.data();
                     $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count);
+                } else if (change.type === 'removed') {
+                    const post = change.doc.data();
+                    $('#' + post.id).remove();
                 }
             })
         })

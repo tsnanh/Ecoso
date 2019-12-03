@@ -25,7 +25,7 @@ let lastVisible = null
 
 function appendData(data) {
     userContainer.append('<tr id="' + data.id + '">' +
-        '<td class="name">' + data.name + '</td>' +
+        '<td class="name"><a href="/users/' + data.id + '">' + data.name + '</a></td>' +
         '<td class="dateOfBirth">' + data.dateOfBirth + '</td>' +
         '<td class="phoneNumber">' + data.phoneNumber + '</td>' +
         '<td class="dateJoined">' + getDateTime(data.timeJoined) + '</td>' +

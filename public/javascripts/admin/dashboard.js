@@ -50,7 +50,7 @@ function getNumberOfTreePlantedAndTotalUser() {
 }
 
 function getNumberOfMessage() {
-    firestore.collection('publicChat').onSnapshot(snap => {
+    firestore.collection('globalChat').onSnapshot(snap => {
         $('#numberOfMessage').text(snap.docs.length)
     })
 }

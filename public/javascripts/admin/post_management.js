@@ -7,7 +7,6 @@ const userContainer = $('#postContainer');
 let lastVisible = null;
 /**
  * Khong su dung duoc search, firestore chua ho tro
- * @param data
  */
 // tfSearch.addEventListener('input', (event) => {
 //     userContainer.empty();
@@ -45,13 +44,13 @@ async function appendData(post) {
 function handleActivitySubscription(snapshot, counter) {
     const initialLoad = counter === 1;
     lastVisible = snapshot.docs[snapshot.docs.length - 1];
-    snapshot.docChanges().forEach(function(change) {
+    snapshot.docChanges().forEach(async function(change) {
         if (initialLoad) {
-            appendData(change.doc.data());
+            await appendData(change.doc.data());
         } else {
             if (change.type === 'added') {
                 const post = change.doc.data();
-                prependData(post);
+                // prependData(post);
             }
             if (change.type === 'modified') {
                 console.log('edit');
