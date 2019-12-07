@@ -5,6 +5,10 @@ const firestore = firebase.firestore();
 let image;
 let lastVisible = null;
 
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    $('#reverse').addClass('flex-column-reverse');
+}
+
 $("#dropBtn").click(function(){
     console.log('cac');
     $('#dropdown').css('display', 'block');
@@ -186,8 +190,8 @@ function prependPost(post) {
 async function appendPost(post) {
     const time = getDateDiff(post.timePosted);
     firebase.firestore().collection('users').doc(post.user).get().then(async snap => {
-        await $('#postContainer').append('<div class="post" id="' + post.id + '">' +
-            '<img class="mx-auto d-block" src="' + post.image + '" />' +
+        await $('#postContainer').append('<div style="margin-bottom: 24px; margin-top: 24px" class="post" id="' + post.id + '">' +
+            '<a href="' + post.image + '"><img class="mx-auto d-block" src="' + post.image + '" /></a>' +
             '<div class="postContent d-flex">' +
             '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
             '<div class="postContentInside ml-3">' +

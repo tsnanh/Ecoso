@@ -17,7 +17,7 @@ exports.removeUser = (req, res) => {
 };
 
 exports.getUsersLocation = (req, res) => {
-    res.render('admin/users_location')
+    res.render('admin/user_location')
 };
 
 exports.getPostManagement = (req, res) => {
@@ -28,6 +28,7 @@ exports.removePost = (req, res) => {
     const uid = req.body.uid;
     const id = req.body.id;
     console.log(uid + '  ' + id);
-    admin.firestore().collection('users').doc(req.body.uid).collection('posts').doc(req.body.id).delete();
-    res.send()
+    admin.firestore().collection('users').doc(req.body.uid).collection('posts').doc(req.body.id).delete().then(() => {
+        res.send();
+    });
 };

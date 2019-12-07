@@ -1,10 +1,8 @@
-const firestore = firebase.firestore()
-
-const tfSearch = document.getElementById('searchUser')
+const firestore = firebase.firestore();
 
 const userContainer = $('#userContainer');
 
-let lastVisible = null
+let lastVisible = null;
 /**
  * Khong su dung duoc search, firestore chua ho tro
  * @param data
@@ -42,7 +40,7 @@ function removeUser(uid) {
         data: { uid },
         url: '/admin/removeUser',
     }).done(() => {
-        $('#' + uid).remove();
+        window.open('/admin/userManagement', '_self');
     })
 }
 
@@ -52,10 +50,10 @@ function getUserList() {
         .orderBy('name', 'asc')
         .limit(20)
         .onSnapshot(snap => {
-            lastVisible = snap.docs[snap.docs.length - 1]
+            lastVisible = snap.docs[snap.docs.length - 1];
         snap.docChanges().forEach(change => {
             if (change.type === 'added') {
-                const data = change.doc.data()
+                const data = change.doc.data();
                 appendData(data)
             }
             if (change.type === 'modified') {
@@ -67,7 +65,7 @@ function getUserList() {
                 $('#' + data.id + '>.address').text(data.address);
             }
             if (change.type === 'remove') {
-                const data = change.doc.data()
+                const data = change.doc.data();
                 $('#' + data.id).remove();
             }
         })
@@ -75,7 +73,7 @@ function getUserList() {
 }
 
 function getDateTime(timestamp) {
-    let date = new Date(timestamp)
+    let date = new Date(timestamp);
     let dd = String(date.getDate()).padStart(2, '0');
     let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = date.getFullYear();
@@ -85,14 +83,14 @@ function getDateTime(timestamp) {
 
 $(document).ready(() => {
     getUserList()
-})
+});
 
 async function lazyLoad() {
     const scrollIsAtTheBottom = (document.documentElement.scrollHeight - window.innerHeight) === window.scrollY;
     if (scrollIsAtTheBottom) {
         if (lastVisible) {
             firestore.collection('users').orderBy('name', 'asc').startAfter(lastVisible).onSnapshot(snap => {
-                lastVisible = snap.docs[snap.docs.length - 1]
+                lastVisible = snap.docs[snap.docs.length - 1];
                 snap.docChanges().forEach(change => {
                     if (change.type === 'added') {
                         appendData(change.doc.data())
@@ -106,7 +104,7 @@ async function lazyLoad() {
                         $('#' + data.id + '>.address').text(data.address);
                     }
                     if (change.type === 'remove') {
-                        const data = change.doc.data()
+                        const data = change.doc.data();
                         $('#' + data.id).remove();
                     }
                 })
@@ -115,4 +113,4 @@ async function lazyLoad() {
     }
 }
 
-window.addEventListener('scroll', lazyLoad)
+window.addEventListener('scroll', lazyLoad);

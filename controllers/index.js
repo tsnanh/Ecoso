@@ -52,7 +52,7 @@ exports.get_login = function (req, res)
 {
     const session = req.cookies['session'] || '';
     if (req.cookies['session']) {
-        admin.auth().verifySessionCookie(session, true).then(decodeClaims => {
+        admin.auth().verifySessionCookie(session, true).then(() => {
             res.redirect('/');
         }).catch(() => {
             res.render('login');
@@ -143,7 +143,7 @@ exports.updateUserInfo = function (req, res) {
             });
         }
     }).catch(err => {
-        console.log(err)
+        console.log(err);
         res.redirect('/login')
     })
 };
@@ -241,8 +241,10 @@ exports.comment = (req, res) => {
                     time: time,
                     timePosted: new Date().getTime(),
                     uid: res.locals.uid
-                });
-            res.send();
+                }).then(() => {
+                res.send();
+            });
+
         })
 };
 
@@ -279,4 +281,30 @@ exports.sendMessage = (req, res) => {
     }).then(() => {
         res.send();
     })
+};
+
+exports.editPost = (req, res) => {
+    admin
+        .firestore()
+        .collection('users')
+        .doc(res.locals.uid)
+        .collection('posts')
+        .doc(req.body.postID)
+        .update({
+            content: req.body.content
+        }).then(() => {
+            res.send();
+    });
+};
+
+exports.deletePost = (req, res) => {
+    admin
+        .firestore()
+        .collection('users')
+        .doc(res.locals.uid)
+        .collection('posts')
+        .doc(req.body.postID)
+        .delete().then(() => {
+        res.send();
+    });
 };

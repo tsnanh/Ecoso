@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="vi">
 <head>
-    <title>Ecoso - Home</title>
+    <title><%=user.name%>'s Post</title>
     <link rel='stylesheet' href='/stylesheets/home_page.css' />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
     <script src="/bootstrap/js/bootstrap.js"></script>
@@ -14,50 +14,76 @@
     <script src="/javascripts/navbar.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 <div class="wrapper">
-    <nav class="fixed-top">
-        <div class="menu-icon">
-            <i class="fa fa-bars fa-2x"></i>
-        </div>
-        <div class="logo">
-            <img src="/images/ecoso_logo.png" style="width: 64px;"  alt="ecoso_logo"/>Ecoso
-        </div>
-        <div class="menu">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/globalChat">Global Chat</a></li>
-                <li><a href="/savedPosts">Saved Posts</a></li>
-                <li>
-                    <a style="cursor: pointer;" onclick="toggle()"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="<%=user.avatar%>" id="dropBtn"  alt="user_avatar"/>
-                    </a>
-                </li>
-            </ul>
-            <div id="dropdown" class="dropdown-menu" aria-labelledby="dropBtn">
-                <a class="dropdown-item" style="cursor: pointer;" onclick="signOut()">Log Out</a>
-            </div>
-        </div>
-    </nav>
-    <script>
-        function toggle() {
-            let dropdown = $("#dropdown");
-            if (dropdown.css('display').toLowerCase() === 'block') {
-                dropdown.removeClass('d-block');
-            } else if (dropdown.css('display').toLowerCase() === 'none') {
-                dropdown.addClass('d-block')
-            }
-        }
-    </script>
+    <% include ./navbar.ejs %>
+
 
     <div class="content container" style="max-width: 959px; min-width: 640px;">
-        <h6 id="titlePosts" class="sectionTitle">Post</h6>
+        <h6 id="titlePosts" class="sectionTitle"><%=user.name%>'s Post</h6>
         <hr style="margin: 0"/>
         <div id="postContainer">
             <div class="post">
+                <% if (post.user === uid) { %>
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <button id="editButton" style="color: darkgreen; background: none;border: 0;" type="button" class="card-link">
+                                <i class="fa fa-edit"></i>&nbsp;Edit
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button id="deleteButton" style="color: darkgreen; background: none;border: 0;" type="button" class="card-link">
+                                <i class="fa fa-remove"></i>&nbsp;Remove
+                            </button>
+                        </div>
+                    </div>
+                <div id="modalDelete" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete this post</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure???
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" onclick="deletePost('<%=post.id%>')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div id="modalEdit" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit this post</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="postContent" class="col-form-label">Content:</label>
+                                            <textarea class="form-control" id="postContent"><%=post.content%></textarea>
+                                        </div>
+                                        <span class="text-danger" id="warn"></span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success" onclick="updatePost('<%=post.id%>')">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <%}%>
                 <img class="mx-auto d-block" src="<%=post.image%>"/>
                 <div class="postContent d-flex">
                     <img class="rounded-circle" src="<%=user.avatar%>" alt="user_avatar" />
@@ -92,5 +118,8 @@
 <script src="/javascripts/login.js"></script>
 <script src="/javascripts/utils.js"></script>
 <script src="/javascripts/post.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

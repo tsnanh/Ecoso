@@ -125,7 +125,7 @@ nav ul li a {
     -webkit-text-stroke-color: white;
 }
 
-@media(max-width: 786px) {
+@media(max-width: 936px) {
 
     .logo {
         position: fixed;

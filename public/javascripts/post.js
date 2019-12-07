@@ -97,3 +97,42 @@ function comment() {
         txt.value = '';
     })
 }
+
+$('#editButton').click(() => {
+    $('#modalEdit').modal('toggle');
+});
+
+$('#deleteButton').click(() => {
+    $('#modalDelete').modal('toggle');
+});
+
+function updatePost(postID) {
+    if (!$('#postContent').val()) {
+        $('#warn').text('Content must not be null!');
+    } else {
+        $.ajax({
+            url: '/editPost',
+            method: 'POST',
+            data: {
+                content: $('#postContent').val(),
+                postID: postID
+            },
+            success: () => {
+                $('#modalEdit').modal('toggle');
+            }
+        });
+    }
+}
+
+function deletePost(postID) {
+        $.ajax({
+            url: '/deletePost',
+            method: 'POST',
+            data: {
+                postID: postID
+            },
+            success: () => {
+                window.open('/', '_self');
+            }
+        });
+}

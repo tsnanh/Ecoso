@@ -23,10 +23,10 @@ let lastVisible = null;
 // })
 
 async function appendData(post) {
-    await userContainer.append('<div class="post" id="' + post.id + '">' +
-        '<img class="mx-auto d-block" src="' + post.image + '" />' +
+    await userContainer.append('<div style="margin-bottom: 24px; margin-top: 24px" class="post" id="' + post.id + '">' +
+        '<a href="' + post.image + '"><img class="mx-auto d-block" src="' + post.image + '" /></a>' +
         '<div class="postContent d-flex card-header-success">' +
-        '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
+        '<img class="rounded-circle" src="' + post.userAvatar + '"  alt=""/>' +
         '<div class="postContentInside ml-3">' +
         '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
         '<span class="ml-2">' + post.time + '</span>' +
@@ -35,7 +35,7 @@ async function appendData(post) {
         '</div>' +
         '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: lightgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a class="float-right" onclick="commentPost()"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
         '<div class="row text-center p-2 mb-2">' +
-        '<div class="col-6"><a style="color: lightgreen" href="/user/' + post.user + '/post/' + post.id + '" onclick="viewPost()" class="card-link"><i class="material-icons">visibility</i>  View</a></div>' +
+        '<div class="col-6"><a style="color: lightgreen" href="/user/' + post.user + '/post/' + post.id + '" class="card-link"><i class="material-icons">visibility</i>  View</a></div>' +
         '<div class="col-6"><a style="color: lightgreen" href="javascript:void(0)" onclick="removePost(\'' + post.user + '\', \'' + post.id + '\')" class="card-link"><i class="material-icons">delete</i>  Delete</a></div>' +
         '</div>' +
         '</div>');
@@ -49,7 +49,7 @@ function handleActivitySubscription(snapshot, counter) {
             await appendData(change.doc.data());
         } else {
             if (change.type === 'added') {
-                const post = change.doc.data();
+                // const post = change.doc.data();
                 // prependData(post);
             }
             if (change.type === 'modified') {
@@ -85,7 +85,7 @@ function createFnCounter(fn, invokeBeforeExecution) {
 
 function getPostList() {
     let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'desc').limit(20);
-    let observer = doc.onSnapshot(handleActivitySubscriptionWithCounter);
+    doc.onSnapshot(handleActivitySubscriptionWithCounter);
 }
 
 // load more post when user scroll to bottom hihihihihihihi
@@ -109,25 +109,26 @@ $(window).scroll(function() {
     }
 });
 
-function prependData(post) {
-    console.log('booom')
-    userContainer.prepend('<div class="post" id="' + post.id + '">' +
-        '<img class="mx-auto d-block" src="' + post.image + '" />' +
-        '<div class="postContent d-flex card-header-success">' +
-        '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
-        '<div class="postContentInside ml-3">' +
-        '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
-        '<span class="ml-2">' + post.time + '</span>' +
-        '<p>' + post.content + '</p>' +
-        '</div>' +
-        '</div>' +
-        '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: lightgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a class="float-right" onclick="commentPost()"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
-        '<div class="row text-center p-2 mb-2">' +
-        '<div class="col-6"><a style="color: lightgreen" href="/user/' + post.user + '/post/' + post.id + '" onclick="viewPost()" class="card-link"><i class="material-icons">visibility</i>  View</a></div>' +
-        '<div class="col-6"><a style="color: lightgreen" href="javascript:void(0)" onclick="removePost(\'' + post.user + '\', \'' + post.id + '\')" class="card-link"><i class="material-icons">delete</i>  Delete</a></div>' +
-        '</div>' +
-        '</div>');
-}
+/** todo: WAITING FOR SOLUTIONS **/
+// function prependData(post) {
+//     console.log('booom');
+//     userContainer.prepend('<div class="post" id="' + post.id + '">' +
+//         '<img class="mx-auto d-block" src="' + post.image + '" />' +
+//         '<div class="postContent d-flex card-header-success">' +
+//         '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
+//         '<div class="postContentInside ml-3">' +
+//         '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
+//         '<span class="ml-2">' + post.time + '</span>' +
+//         '<p>' + post.content + '</p>' +
+//         '</div>' +
+//         '</div>' +
+//         '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: lightgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a class="float-right" onclick="commentPost()"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
+//         '<div class="row text-center p-2 mb-2">' +
+//         '<div class="col-6"><a style="color: lightgreen" href="/user/' + post.user + '/post/' + post.id + '" onclick="viewPost()" class="card-link"><i class="material-icons">visibility</i>  View</a></div>' +
+//         '<div class="col-6"><a style="color: lightgreen" href="javascript:void(0)" onclick="removePost(\'' + post.user + '\', \'' + post.id + '\')" class="card-link"><i class="material-icons">delete</i>  Delete</a></div>' +
+//         '</div>' +
+//         '</div>');
+// }
 
 
 function removePost(uid, id) {
@@ -136,6 +137,8 @@ function removePost(uid, id) {
         method: 'POST',
         data: { uid: uid, id: id },
         url: '/admin/removePost',
+    }).done(() => {
+        window.open('/admin/postManagement', '_self');
     })
 }
 /* UNUSED */

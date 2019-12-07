@@ -20,6 +20,7 @@ body,html{
 }
 .msg_card_body{
     overflow-y: auto;
+    overflow-x: hidden;
 }
 .card-header{
     border-radius: 15px 15px 0 0 !important;
@@ -151,6 +152,8 @@ body,html{
     background-color: #75dd74;
     padding: 10px;
     position: relative;
+    width: fit-content;
+    max-width: 85%;
 }
 .msg_container_send{
     margin-top: auto;
@@ -160,6 +163,8 @@ body,html{
     background-color: #78e08f;
     padding: 10px;
     position: relative;
+    width: fit-content;
+    max-width: 85%;
 }
 .msg_time{
     position: absolute;

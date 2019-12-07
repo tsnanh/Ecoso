@@ -40,7 +40,7 @@ function appendMessage(message) {
         let direction = 'end';
         messageContainer.append('<div class="d-flex justify-content-' + direction + ' mb-5">' +
             '<div class="msg_container_send">' +
-            '<a style="text-decoration: none; color: darkgreen; font-weight: bold;" href="/users/' + message.user + '">' + message.userDisplayName + '</a><br/>' +
+            '<a style="text-decoration: none; color: darkgreen; font-weight: bold;float: end;" href="/users/' + message.user + '">' + message.userDisplayName + '</a><br/>' +
             message.message +
             '</div>' +
             '<div class="img_cont_msg">' +

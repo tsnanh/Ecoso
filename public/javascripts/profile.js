@@ -48,8 +48,8 @@ $(window).bind("load", () => {
                     const time = getDateDiff(post.timePosted);
                     firebase.firestore().collection('users').doc(post.user).get().then(snap => {
                         const poster = snap.data();
-                        $('#postContainer').append('<div class="post" id="' + post.id + '">' +
-                            '<img class="mx-auto d-block" src="' + post.image + '" />' +
+                        $('#postContainer').append('<div style="margin-bottom: 24px; margin-top: 24px" class="post" id="' + post.id + '">' +
+                            '<a href="' + post.image + '"><img class="mx-auto d-block" src="' + post.image + '" /></a>' +
                             '<div class="postContent d-flex">' +
                             '<img class="rounded-circle" src="' + poster.avatar + '" />' +
                             '<div class="postContentInside ml-3">' +
@@ -61,7 +61,7 @@ $(window).bind("load", () => {
                             '<div id="' + post.id + 'likeCount" class="ml-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '</div>' +
                             '<div class="row text-center p-2 mb-2">' +
                             '<div class="col-6"><a id="like" style="color:darkgreen;cursor: pointer" onclick="likeYourPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>\n' +
-                            '<div class="col-6"><a style="color:darkgreen;" href="javascript:void(0)" onclick="commentYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
+                            '<div class="col-6"><a style="color:darkgreen;" href="/user/' + post.user + '/post/' + post.id + '" onclick="commentYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
                             // '<div class="col-4"><a id="delete" style="color:darkgreen;" href="javascript:void(0)" onclick="deleteYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="material-icons">&#xe872;</i>  Delete</a></div>\n' +
                             '</div>' +
                             '</div>');
