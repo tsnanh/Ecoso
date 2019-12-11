@@ -1,15 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi-VN">
 <head>
-    <title>Ecoso - Login or Sign Up</title>
-    <link rel="shortcut icon" href="/images/ecoso_logo.png"/>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-    <script src="/bootstrap/js/bootstrap.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Ecoso</title>
+    <meta name="description" content="Ecoso"/>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/landing/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/landing/styles/main.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Ecoso</h1>
-    <p>Welcome to Ecoso</p>
-    <a class="btn btn-light" href="/login">Login</a>
+<body id="top"><div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+            <div class="masthead clearfix">
+                <div class="inner">
+                    <h3 class="masthead-brand">Ecoso</h3>
+                    <nav class="nav nav-masthead">
+                        <a class="nav-link nav-social" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a class="nav-link nav-social" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a class="nav-link nav-social" href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
+                        <a class="nav-link nav-social" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    </nav>
+                </div>
+            </div><br>
+            <div class="inner cover">
+                <h1 class="cover-heading">Ecological Social Network</h1>
+                <p class="lead cover-copy">You use social media network, we plant trees</p>
+                <p class="lead"><button onclick="signInWithGoogle()" type="button" class="btn btn-lg btn-default btn-notify">
+                        Login to Ecoso with Google
+                    </button></p>
+            </div>
+            <div class="mastfoot">
+                <div class="inner">
+                    <p>&copy; Ecoso by SadTeam. Developer: <a href="https://tsnanh.dev/" target="_blank">tsnAnh.dev</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ./firebase_init %>
+    <script src="/javascripts/login.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="/landing/scripts/main.js"></script>
 </body>
 </html>

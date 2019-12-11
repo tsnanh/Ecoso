@@ -5,13 +5,18 @@ html, body {
     width: 100%;
     background: url("../images/88891.webp") no-repeat fixed;
     background-size: cover;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Quicksand', sans-serif !important;
 }
 .wrapper {
     /*background: rgba(0, 0, 0, 0.45) no-repeat fixed;*/
     width: 100%;
-    height: max-content;
-
+    height: 100%;
+    background: rgba(48, 53, 70, 0.5);
+}.wrapper-chat {
+    /*background: rgba(0, 0, 0, 0.45) no-repeat fixed;*/
+    width: 100%;
+    /*height: 100%;*/
+    background: rgba(48, 53, 70, 0.5);
 }
 header {
     width: 100%;
@@ -270,6 +275,7 @@ nav ul li a {
     border: none;
     resize: none;
     color: black;
+    padding-left: 24px;
 }
 
 #imagePost {

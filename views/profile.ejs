@@ -6,6 +6,7 @@
     <title>Ecoso - Home</title>
     <link rel='stylesheet' href='/stylesheets/home_page.css' />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
     <script src="/bootstrap/js/bootstrap.js"></script>
     <link rel="shortcut icon" href="/images/ecoso_logo.png"/>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -21,7 +22,8 @@
 <div class="wrapper">
     <% include ./navbar %>
 
-    <div class="container content" style="margin-top: 10rem;max-width: 959px; min-width: 640px;">
+    <div class="container" style="padding-top: 10rem;">
+    <div class="content2" style="max-width: 959px; min-width: 640px;">
         <div class="row">
             <div class="col-3" style="padding-top: 24px; padding-bottom: 24px;"><div style="width: 100%; height: 100%;"><img class="mx-auto d-block rounded-circle" id="avatarProfile" src="<%=avatar%>" alt="profileAvatar" /></div></div>
             <div class="col-9" style="padding-top: 24px; padding-bottom: 24px;">
@@ -30,6 +32,7 @@
                     <div id="infoWrapper">
                         <p id="userID"><i class="material-icons">perm_identity</i>&nbsp;&nbsp;ID: <%=id%></p>
                         <p><i class="material-icons">cake</i>&nbsp;&nbsp;Date Of Birth: <%=dateOfBirth%></p>
+                        <p><i class="material-icons">cake</i>&nbsp;&nbsp;Gender: <%=gender%></p>
                         <p><i class="material-icons">phone</i>&nbsp;&nbsp;Phone Number: <%=phoneNumber%></p>
                         <p><i class="material-icons">room</i>&nbsp;&nbsp;Address: <%=address%></p>
                     </div>
@@ -37,8 +40,9 @@
             </div>
         </div>
     </div>
+    </div>
 
-    <div class="content2 container" style="max-width: 959px; min-width: 640px;">
+    <div class="content2 container" style="max-width: 959px; min-width: 640px; margin-bottom: 0">
         <h6 id="titlePosts" class="sectionTitle"><%=name%>'s Posts</h6>
         <hr style="margin: 0"/>
         <div id="postContainer">

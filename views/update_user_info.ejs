@@ -1,51 +1,166 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <title>Update your information</title>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Au Register Forms by Colorlib</title>
+
     <link rel='stylesheet' href='/stylesheets/home_page.css' />
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-    <script src="/bootstrap/js/bootstrap.js"></script>
-    <link rel="shortcut icon" href="/images/ecoso_logo.png"/>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Icons font CSS-->
+    <link href="/updateInfo/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="/updateInfo/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="/updateInfo/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="/updateInfo/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="/javascripts/navbar.js"></script>
+
+    <!-- Main CSS-->
+    <link href="/updateInfo/css/main.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="/croppie/croppie.css" />-->
+<!--    <script src="/croppie/croppie.js"></script>-->
 </head>
+
 <body>
-    <div class="wrapper">
-        <div class="form-container">
-            <h1 class="text-center title">Update your information</h1>
-            <form id="updateForm" action="" method="post">
-                <div class="inputDiv">
-                    <h6>Profile Photo:</h6>
-                    <img class="d-block mx-auto rounded-circle" src="/images/avatar-icon.png" id="imgPreview" style="width: 150px; height: 150px; background-color: white" />
-                    <input id="profilePhoto"
-                           onchange="document.getElementById('imgPreview').src = window.URL.createObjectURL(this.files[0])"
-                           type="file" accept="image/*" name="profileAvatar" />
-                </div>
-                <div class="inputDiv">
-                    <h6>Date Of Birth:</h6>
-                    <input id="dateOfBirth" type="date" name="dateOfBirth" required />
-                </div>
-                <div class="inputDiv">
-                    <h6>Phone Number</h6>
-                    <input id="phoneNumber" type="text" name="phoneNumber"
-                           required maxlength="10" placeholder="Phone Number.." />
-                </div>
-                <div class="inputDiv">
-                    <h6>Address:</h6>
-                    <input id="address" type="text" name="address" placeholder="Address.." required />
-                </div>
-                <button id="updateInfo" style="font-weight: bold; padding: 16px; font-size: 16px"
-                        class="btn btn-success mx-auto d-block mt-4"
-                        type="submit">Start Using Ecoso</button>
-            </form>
-            <p id="error" style="color: red"></p>
+<div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-4">
+            <div class="card-body">
+                <h2 class="title">Update Your Information</h2>
+                    <div class="row row-space">
+                        <div class="col-12" style="width: 100%">
+                            <label class="label">Profile photo:</label>
+                            <input id="profilePhoto"
+                                   type="file" accept="image/*" name="profileAvatar" style="margin-bottom: 16px" />
+                            <div id="crop" style="display:none;"><div class="croppie"></div></div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Birthday</label>
+                                <div class="input-group-icon">
+                                    <input class="input--style-4 js-datepicker" type="date" name="dateOfBirth" id="dateOfBirth">
+                                    <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Gender</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">Male
+                                        <input type="radio" checked="checked" value="Male" name="gender">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">Female
+                                        <input type="radio" value="Female" name="gender">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Address</label>
+                                <input class="input--style-4" type="text" id="address">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group">
+                                <label class="label">Phone Number</label>
+                                <input class="input--style-4" type="text" id="phoneNumber">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-t-15">
+                        <button id="updateInfo" class="btn btn--radius-2 btn--green" type="button">Update</button>
+                    </div>
+            </div>
         </div>
     </div>
-    <% include ./firebase_init %>
-    <script src="/javascripts/updateUserInformation.js"></script>
-</body>
+</div>
+
+<% include ./firebase_init %>
+<script src="/javascripts/updateUserInformation.js"></script>
+<!-- Jquery JS-->
+<script src="/updateInfo/vendor/jquery/jquery.min.js"></script>
+<!-- Vendor JS-->
+<script src="/updateInfo/vendor/select2/select2.min.js"></script>
+<script src="/updateInfo/vendor/datepicker/moment.min.js"></script>
+<script src="/updateInfo/vendor/datepicker/daterangepicker.js"></script>
+
+<!-- Main JS-->
+<script src="/updateInfo/js/global.js"></script>
+<script src="/croppie/croppie.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
 </html>
+<!-- end document-->
+<!--<!doctype html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Update your information</title>-->
+<!--    <link rel='stylesheet' href='/stylesheets/home_page.css' />-->
+<!--    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">-->
+<!--    <script src="/bootstrap/js/bootstrap.js"></script>-->
+<!--    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">-->
+<!--    <link rel="shortcut icon" href="/images/ecoso_logo.png"/>-->
+<!--    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+<!--    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+<!--    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--    <script src="/javascripts/navbar.js"></script>-->
+<!--    <link rel="stylesheet" href="/croppie/croppie.css" />-->
+<!--    <script src="/croppie/croppie.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="wrapper">-->
+<!--        <div class="form-container">-->
+<!--            <h1 class="text-center title">Update your information</h1>-->
+<!--&lt;!&ndash;            <form id="updateForm" method="post">&ndash;&gt;-->
+<!--                <div class="inputDiv">-->
+<!--                    <h6>Profile Photo:</h6>-->
+<!--                    <div class="croppie"></div>-->
+<!--&lt;!&ndash;                    <img class="d-block mx-auto rounded-circle" src="/images/avatar-icon.png" id="imgPreview" style="width: 150px; height: 150px; background-color: white" />&ndash;&gt;-->
+<!--                    <input id="profilePhoto"-->
+<!--                           onchange="document.getElementById('imgPreview').src = window.URL.createObjectURL(this.files[0])"-->
+<!--                           type="file" accept="image/*" name="profileAvatar" />-->
+<!--                </div>-->
+<!--                <div class="inputDiv">-->
+<!--                    <h6>Date Of Birth:</h6>-->
+<!--                    <input id="dateOfBirth" type="date" name="dateOfBirth" required />-->
+<!--                </div>-->
+<!--                <div class="inputDiv">-->
+<!--                    <h6>Phone Number</h6>-->
+<!--                    <input id="phoneNumber" type="text" name="phoneNumber"-->
+<!--                           required maxlength="10" placeholder="Phone Number.." />-->
+<!--                </div>-->
+<!--                <div class="inputDiv">-->
+<!--                    <h6>Address:</h6>-->
+<!--                    <input id="address" type="text" name="address" placeholder="Address.." required />-->
+<!--                </div>-->
+<!--                <button id="updateInfo" style="font-weight: bold; padding: 16px; font-size: 16px"-->
+<!--                        class="btn btn-success mx-auto d-block mt-4"-->
+<!--                        type="submit">Start Using Ecoso</button>-->
+<!--&lt;!&ndash;            </form>&ndash;&gt;-->
+<!--            <p id="error" style="color: red"></p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    -->
+<!--    <script src="/javascripts/updateUserInformation.js"></script>-->
+<!--</body>-->
+<!--</html>-->

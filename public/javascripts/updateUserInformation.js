@@ -5,36 +5,59 @@ $(document).ready(function () {
     let latitude = 0;
     let longitude = 0;
 
-    input.addEventListener('change', function (event) {
-        image = event.target.files[0];
+    let uploadCrop = $('.croppie').croppie({
+        url: 'https://icons-for-free.com/iconfiles/png/512/avatar+human+people+profile+user+icon-1320168139431219590.png',
+        enableExif: true,
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
     });
 
-    getLocation()
+    input.addEventListener('change', function (event) {
+        $('#crop').css('display', 'block');
+        let reader = new FileReader();
+        reader.onload = (event) => {
+            uploadCrop.croppie('bind', {url: event.target.result})
+                .then(() => {
+                })
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+
+    getLocation();
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async position => {
                 latitude = position.coords.latitude;
                 longitude = position.coords.longitude;
-                console.log(latitude)
             });
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
 
     $('#updateInfo').click(function () {
-        let uid = firebase.auth().currentUser.uid;
-        console.log(image);
-        if (image) {
-            const userFolder = firebase.storage().ref(uid).child('avatars').child(image.name);
-            userFolder.put(image).then(snap => {
-                snap.ref.getDownloadURL().then(async url => {
-                    await sendInformationData(url);
-                })
-            });
-        } else {
-            sendInformationData('/images/avatar-icon.png')
-        }
+        $('.croppie').croppie('result', {
+            type: 'blob',
+            size: 'viewport'
+        }).then((response) => {
+            image = response;
+            let uid = firebase.auth().currentUser.uid;
+            if (response) {
+                const userFolder = firebase.storage().ref(uid).child('avatars').child(new Date().getTime().toString());
+                userFolder.put(response).then(snap => {
+                    snap.ref.getDownloadURL().then(url => {
+                        sendInformationData(url);
+                    })
+                });
+            } else {
+                sendInformationData('/images/avatar-icon.png')
+            }
+        });
     });
 
     function sendInformationData(url) {
@@ -46,20 +69,32 @@ $(document).ready(function () {
                 phoneNumber: document.getElementById('phoneNumber').value,
                 address: document.getElementById('address').value,
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                gender: $('input[name="gender"]:checked').val()
             };
         } else {
             data = {
                 avatar: url,
                 dateOfBirth: document.getElementById('dateOfBirth').value,
                 phoneNumber: document.getElementById('phoneNumber').value,
-                address: document.getElementById('address').value
+                address: document.getElementById('address').value,
+                gender: $('input[name="gender"]:checked').val()
             };
         }
-        let xmlHttpRequest = new XMLHttpRequest();
-        xmlHttpRequest.open('POST', '/updateInfo', false);
-        xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
-        xmlHttpRequest.send(JSON.stringify(data));
+        console.log(data)
+        // let xmlHttpRequest = new XMLHttpRequest();
+        // xmlHttpRequest.open('POST', '/updateInfo', false);
+        // xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
+        // xmlHttpRequest.send(JSON.stringify(data));
+        $.ajax({
+            url: '/updateInfo',
+            method: 'POST',
+            data: data
+        }).done(() => {
+            window.open('/', '_self')
+        })
     }
 });
+
+
 

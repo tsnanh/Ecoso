@@ -170,9 +170,10 @@ function prependPost(post) {
     const time = getDateDiff(post.timePosted);
     firebase.firestore().collection('users').doc(post.user).get().then(snap => {
         $('#postContainer').prepend('<div class="post" id="' + post.id + '">' +
-            '<img class="mx-auto d-block" src="' + post.image + '" />' +
+            '<a href="' + post.image + '"><img class="mx-auto d-block" src="' + post.image + '"  alt="" /></a>' +
+            '<img class="mx-auto d-block" src="' + post.image + '"  alt=""/>' +
             '<div class="postContent d-flex">' +
-            '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
+            '<img class="rounded-circle" src="' + post.userAvatar + '"  alt=""/>' +
             '<div class="postContentInside ml-3">' +
             '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
             '<span class="ml-2">' + time + '</span>' +

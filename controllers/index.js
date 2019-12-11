@@ -55,10 +55,10 @@ exports.get_login = function (req, res)
         admin.auth().verifySessionCookie(session, true).then(() => {
             res.redirect('/');
         }).catch(() => {
-            res.render('login');
+            res.render('index');
         });
     } else {
-        res.render('login');
+        res.render('index');
     }
 };
 
@@ -105,6 +105,7 @@ exports.updateUserInfo = function (req, res) {
         const address = req.body.address;
         const latitude = req.body.latitude;
         const longitude = req.body.longitude;
+        const gender = req.body.gender;
         if (latitude && longitude) {
             const userData = {
                 id: decodeClaims.uid,
@@ -118,7 +119,8 @@ exports.updateUserInfo = function (req, res) {
                 tree: 0,
                 postCount: 0,
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                gender: gender
             };
             const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
             await userRef.set(userData).then(() => {
@@ -135,7 +137,8 @@ exports.updateUserInfo = function (req, res) {
                 timeJoined: new Date().getTime(),
                 isAdmin: false,
                 tree: 0,
-                postCount: 0
+                postCount: 0,
+                gender: gender
             };
             const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
             await userRef.set(userData).then(() => {
