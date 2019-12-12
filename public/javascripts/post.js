@@ -60,7 +60,7 @@ $(window).load('load', () => {
                         '<div class="postContentInside ml-2">\n' +
                         '<a href="/users/' + doc.data().uid + '">' + doc.data().name + '</a>\n' +
                         '<span class="ml-2" style="font-size: 12px;">' + doc.data().time + '</span>\n' +
-                        '<p style="color: white">' + doc.data().content + '</p>\n' +
+                        '<div id="content" style="color: white">' + doc.data().content + '</div>\n' +
                         '</div>\n' +
                         '</div>\n' +
                         '</div>');

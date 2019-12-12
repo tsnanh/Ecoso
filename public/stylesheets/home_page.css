@@ -424,3 +424,11 @@ nav ul li a {
     background: darkgreen !important;
     color: white !important;
 }
+.navv {
+    background: rgba(0, 0, 0, 0.4);
+    -webkit-transition: opacity 2s ease-in;
+    -moz-transition: opacity 2s ease-in;
+    -o-transition: opacity 2s ease-in;
+    -ms-transition: opacity 2s ease-in;
+    transition: opacity 2s ease-in;
+}
