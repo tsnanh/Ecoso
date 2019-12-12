@@ -12,6 +12,13 @@ exports.getUserManagement = (req, res) => {
 exports.removeUser = (req, res) => {
     const uid = req.body.uid;
     admin.firestore().collection('users').doc(uid).delete().then(() => {
+        admin.firestore().collection('globalChat').get().then(snap => {
+            snap.forEach(doc => {
+                if (doc.data().user === uid) {
+                    doc.ref.delete();
+                }
+            })
+        });
         res.send()
     });
 };

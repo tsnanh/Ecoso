@@ -55,7 +55,7 @@ $(window).bind("load", () => {
                             '<div class="postContentInside ml-3">' +
                             '<a href="/users/' + post.user + '">' + poster.name + '</a>' +
                             '<span class="ml-2">' + time + '</span>' +
-                            '<p>' + post.content + '</p>' +
+                            '<div>' + post.content + '</div>' +
                             '</div>' +
                             '</div>' +
                             '<div id="' + post.id + 'likeCount" class="ml-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '</div>' +

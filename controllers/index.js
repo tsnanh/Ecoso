@@ -32,12 +32,7 @@ exports.get_index = function(req, res) {
     admin.auth().verifySessionCookie(sessionCookie, true).then(decodeClaims => {
         admin.firestore().collection('users').doc(uid).get().then(snap => {
             if (snap.exists) {
-                const avatar = snap.get('avatar');
-                res.render('home_page', {
-                    uid: uid,
-                    avatar: avatar,
-                    user: decodeClaims.name,
-                });
+                res.render('home_page');
             } else {
                 res.redirect('/updateInfo');
             }
@@ -103,48 +98,24 @@ exports.updateUserInfo = function (req, res) {
         const dateOfBirth = req.body.dateOfBirth;
         const phoneNumber = req.body.phoneNumber;
         const address = req.body.address;
-        const latitude = req.body.latitude;
-        const longitude = req.body.longitude;
         const gender = req.body.gender;
-        if (latitude && longitude) {
-            const userData = {
-                id: decodeClaims.uid,
-                name: decodeClaims.name,
-                avatar: avatar,
-                dateOfBirth: dateOfBirth,
-                phoneNumber: phoneNumber,
-                address: address,
-                timeJoined: new Date().getTime(),
-                isAdmin: false,
-                tree: 0,
-                postCount: 0,
-                latitude: latitude,
-                longitude: longitude,
-                gender: gender
-            };
-            const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
-            await userRef.set(userData).then(() => {
-                res.redirect('/');
-            });
-        } else {
-            const userData = {
-                id: decodeClaims.uid,
-                name: decodeClaims.name,
-                avatar: avatar,
-                dateOfBirth: dateOfBirth,
-                phoneNumber: phoneNumber,
-                address: address,
-                timeJoined: new Date().getTime(),
-                isAdmin: false,
-                tree: 0,
-                postCount: 0,
-                gender: gender
-            };
-            const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
-            await userRef.set(userData).then(() => {
-                res.redirect('/');
-            });
-        }
+        const userData = {
+            id: decodeClaims.uid,
+            name: decodeClaims.name,
+            avatar: avatar,
+            dateOfBirth: dateOfBirth,
+            phoneNumber: phoneNumber,
+            address: address,
+            timeJoined: new Date().getTime(),
+            isAdmin: false,
+            tree: 0,
+            postCount: 0,
+            gender: gender
+        };
+        const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
+        await userRef.set(userData).then(() => {
+            res.redirect('/');
+        });
     }).catch(err => {
         console.log(err);
         res.redirect('/login')
@@ -203,7 +174,7 @@ exports.getProfile = function (req, res) {
 exports.getPost = (req, res) => {
     const userUID = req.params.uid;
     const postID = req.params.postID;
-        admin.firestore().collection('users').doc(res.locals.uid).get().then(snap => {
+        admin.firestore().collection('users').doc(userUID).get().then(snap => {
             const user = snap.data();
             admin
                 .firestore()
@@ -310,4 +281,15 @@ exports.deletePost = (req, res) => {
         .delete().then(() => {
         res.send();
     });
+};
+
+exports.updateLocation = (req, res) => {
+    const userRef = admin.firestore().collection('users').doc(res.locals.uid);
+    const latitude = parseFloat(req.body.latitude);
+    const longitude = parseFloat(req.body.longitude);
+
+    userRef.update('latitude', latitude);
+    userRef.update('longitude', longitude);
+
+    res.send();
 };

@@ -407,3 +407,20 @@ nav ul li a {
     margin: 0;
 }
 
+.linkNav {
+    text-decoration: none;
+    color: white;
+}
+
+.linkNav:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.navDrop:active {
+    background: darkgreen !important;
+}
+.navDrop:hover {
+    background: darkgreen !important;
+    color: white !important;
+}

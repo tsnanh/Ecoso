@@ -8,10 +8,10 @@
     </div>
     <div class="menu">
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/globalChat">Global Chat</a></li>
-            <li><a href="/about">About</a></li>
+            <li><a class="linkNav" href="/">Home</a></li>
+            <li><a class="linkNav" href="/profile">Profile</a></li>
+            <li><a class="linkNav" href="/globalChat">Global Chat</a></li>
+            <li><a class="linkNav" href="/about">About</a></li>
             <li>
                 <a style="cursor: pointer;" onclick="toggle()"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -21,9 +21,9 @@
         </ul>
         <div id="dropdown" class="dropdown-menu" aria-labelledby="dropBtn">
             <% if (permission) { %>
-            <a class="dropdown-item" href="/admin/dashboard" style="cursor: pointer;">Admin Dashboard</a>
+            <a class="dropdown-item navDrop" href="/admin/dashboard" style="cursor: pointer;">Admin Dashboard</a>
             <% } %>
-            <a class="dropdown-item" href="javascript:void(0)" onclick="signOut()">Log Out</a>
+            <a class="dropdown-item navDrop" href="javascript:void(0)" onclick="signOut()">Log Out</a>
         </div>
     </div>
 </nav>

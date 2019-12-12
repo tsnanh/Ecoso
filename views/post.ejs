@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title><%=post.content%>'s Post</title>
+    <title><%=user.name%>'s Post</title>
     <link rel='stylesheet' href='/stylesheets/home_page.css' />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
     <script src="/bootstrap/js/bootstrap.js"></script>
@@ -16,111 +16,116 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- Main Quill library -->
-    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-
-    <!-- Theme included stylesheets -->
-    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
 
     <!-- Core build with no theme, formatting, non-essential modules -->
-    <link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
-    <script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.core.js"></script>
+
+    <!-- Main Quill library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <!-- Theme included stylesheets -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
 </head>
 <body>
 <div class="wrapper">
     <% include ./navbar.ejs %>
 
-    <div class="content container" style="max-width: 959px; min-width: 640px;">
-        <h6 id="titlePosts" class="sectionTitle"><%=user.name%>'s Post</h6>
-        <hr style="margin: 0"/>
-        <div id="postContainer">
-            <div class="post">
-                <% if (post.user === uid) { %>
-                    <div class="row text-center">
-                        <div class="col-6">
-                            <button id="editButton" style="color: darkgreen; background: none;border: 0;" type="button" class="card-link">
-                                <i class="fa fa-edit"></i>&nbsp;Edit
-                            </button>
-                        </div>
-                        <div class="col-6">
-                            <button id="deleteButton" style="color: darkgreen; background: none;border: 0;" type="button" class="card-link">
-                                <i class="fa fa-remove"></i>&nbsp;Remove
-                            </button>
-                        </div>
-                    </div>
-                <div id="modalDelete" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Delete this post</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+    <div class="container" style="max-width: 959px; min-width: 640px;padding-top: 10rem; padding-bottom: 10rem">
+        <div class="content" style="margin: 0 auto;">
+            <h6 id="titlePosts" class="sectionTitle"><%=user.name%>'s Post</h6>
+            <hr style="margin: 0"/>
+            <div id="postContainer">
+                <div class="post">
+                    <% if (post.user === uid) { %>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <button id="editButton" style="color: darkgreen; background: none;border: 0;" type="button" class="card-link">
+                                    <i class="fa fa-edit"></i>&nbsp;Edit
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                Are you sure???
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success" onclick="deletePost('<%=post.id%>')">Save</button>
+                            <div class="col-6">
+                                <button id="deleteButton" style="color: darkgreen; background: none;border: 0;" type="button" class="card-link">
+                                    <i class="fa fa-remove"></i>&nbsp;Remove
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                    <div id="modalEdit" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div id="modalDelete" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-dialog-centered">
                             <div class="modal-content">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Edit this post</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="postContent" class="col-form-label">Content:</label>
-                                            <textarea class="form-control" id="postContent"><%=post.content%></textarea>
-                                        </div>
-                                        <span class="text-danger" id="warn"></span>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-success" onclick="updatePost('<%=post.id%>')">Save</button>
-                                    </div>
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete this post</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure???
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-success" onclick="deletePost('<%=post.id%>')">Delete</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <%}%>
-                <img class="mx-auto d-block" src="<%=post.image%>"/>
-                <div class="postContent d-flex">
-                    <img class="rounded-circle" src="<%=user.avatar%>" alt="user_avatar" />
-                    <div class="postContentInside ml-3">
-                        <a href="/users/<%=post.user%>"><%=user.name %></a>
-                        <span class="ml-2"><%=post.time%></span>
-                        <p id="content"><%=post.content%></p>
+                        <div id="modalEdit" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit this post</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="postContent" class="col-form-label">Content:</label>
+                                                <div class="form-control" id="postContent"><%-post.content%></div>
+                                            </div>
+                                            <span class="text-danger" id="warn"></span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-success" onclick="updatePost('<%=post.id%>')">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <%}%>
+                    <img class="mx-auto d-block" src="<%=post.image%>"/>
+                    <div class="postContent d-flex">
+                        <img class="rounded-circle" src="<%=user.avatar%>" alt="user_avatar" />
+                        <div class="postContentInside ml-3">
+                            <a href="/users/<%=post.user%>"><%=user.name %></a>
+                            <span class="ml-2"><%=post.time%></span>
+                            <div id="content">
+                                <%-post.content%>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  <%=post.likes.count%><a class="float-right" onclick=""><i class="fa fa-comment"></i>&nbsp;<%=post.comments.count%></a></div>
+                    <div class="row text-center p-2 mb-2">
+                        <div class="col-6"><a style="color:darkgreen;" href="javascript:void(0)" onclick="likePost()" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>
+                        <div class="col-6"><a style="color:darkgreen;" href="javascript:void(0)" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>
                     </div>
                 </div>
-                <div id="likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  <%=post.likes.count%><a class="float-right" onclick=""><i class="fa fa-comment"></i>&nbsp;<%=post.comments.count%></a></div>
-                <div class="row text-center p-2 mb-2">
-                    <div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="likePost()" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>
-                    <div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentPost()" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>
-                </div>
-            </div>
 
-            <div class="commentContainerHeader" style="padding: 0 32px 0 32px">
-                <div class="d-flex justify-content-between">
-                    <img style="width: 80px;height: 80px;background: white;vertical-align: baseline" class="rounded-circle" src="<%=user.avatar%>"  alt="user_avatar"/>
-                    <textarea style="width: 700px;font-size: 16px;border: 1px solid darkgreen; border-radius:8px;resize: none;color: black; padding: 8px" id="commentText" placeholder="Type your comment..."></textarea>
-                    <button style="vertical-align: top" class="btn btn-success" onclick="comment()">Post</button>
+                <div class="commentContainerHeader" style="padding: 0 32px 0 32px">
+                    <div class="d-flex justify-content-between">
+                        <img style="width: 80px;height: 80px;background: white;vertical-align: baseline" class="rounded-circle" src="<%=avatar%>"  alt="user_avatar"/>
+                        <div style="width: 700px; height: 6em;font-size: 16px;border: 1px solid darkgreen; border-radius:8px;resize: none;color: black; padding: 8px" id="commentText"></div>
+                        <button style="vertical-align: top" class="btn btn-success" onclick="comment()">Post</button>
+                    </div>
+                    <h6 id="titlePosts" class="sectionTitle">Comments</h6>
+                    <hr style="margin: 0"/>
                 </div>
-                <h6 id="titlePosts" class="sectionTitle">Comments</h6>
-                <hr style="margin: 0"/>
-            </div>
-            <div id="cmt" style="padding: 0 32px 0 32px;" class="commentContainer">
+                <div id="cmt" style="padding: 0 32px 0 32px;" class="commentContainer">
+                </div>
             </div>
         </div>
     </div>

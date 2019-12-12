@@ -30,16 +30,6 @@ $(document).ready(function () {
         reader.readAsDataURL(this.files[0]);
     });
 
-    getLocation();
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(async position => {
-                latitude = position.coords.latitude;
-                longitude = position.coords.longitude;
-            });
-        }
-    }
-
     $('#updateInfo').click(function () {
         $('.croppie').croppie('result', {
             type: 'blob',
@@ -61,26 +51,14 @@ $(document).ready(function () {
     });
 
     function sendInformationData(url) {
-        let data;
-        if (latitude !== 0 || longitude !== 0) {
-             data = {
-                avatar: url,
-                dateOfBirth: document.getElementById('dateOfBirth').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                address: document.getElementById('address').value,
-                latitude: latitude,
-                longitude: longitude,
-                gender: $('input[name="gender"]:checked').val()
-            };
-        } else {
-            data = {
-                avatar: url,
-                dateOfBirth: document.getElementById('dateOfBirth').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                address: document.getElementById('address').value,
-                gender: $('input[name="gender"]:checked').val()
-            };
-        }
+
+        let data = {
+            avatar: url,
+            dateOfBirth: document.getElementById('dateOfBirth').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            address: document.getElementById('address').value,
+            gender: $('input[name="gender"]:checked').val()
+        };
         console.log(data)
         // let xmlHttpRequest = new XMLHttpRequest();
         // xmlHttpRequest.open('POST', '/updateInfo', false);

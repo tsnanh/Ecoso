@@ -1,12 +1,46 @@
 const inputImage = document.getElementById('imagePost');
-const taContentPost = document.getElementById('taPost');
+// const taContentPost = document.getElementById('taPost');
 const imagePreview = document.getElementById('imgPreview');
 const firestore = firebase.firestore();
 let image;
 let lastVisible = null;
-
+let quill;
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
     $('#reverse').addClass('flex-column-reverse');
+}
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+
+            $.ajax({
+                url: '/updateLocation',
+                method: 'PUT',
+                data: {
+                    latitude: latitude,
+                    longitude: longitude
+                }
+            });
+        });
+    }
+}
+
+$(document).ready(() => {
+    getLocation();
+     quill = new Quill(
+        '#taPost', {
+            theme: 'bubble',
+            placeholder: 'What\'s on your mind?'
+        }
+    )
+});
+
+function quillGetHTML(inputDelta) {
+    var tempCont = document.createElement("div");
+    (new Quill(tempCont)).setContents(inputDelta);
+    return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
 }
 
 $("#dropBtn").click(function(){
@@ -23,9 +57,12 @@ inputImage.addEventListener('change', event => {
 });
 
 $('#btnPost').click(function() {
-    if (taContentPost.value === '') {
+    const content = quill.getText(0, quill.getLength());
+    console.log(content.length);
+    if (content.trim().length === 0) {
         document.getElementById('warningText').innerHTML = 'Content must not empty!';
         document.getElementById('warning').style.display = 'block';
+        quill.setText('');
         return;
     } else {
         document.getElementById('warning').style.display = 'none';
@@ -46,9 +83,10 @@ $('#btnPost').click(function() {
 });
 
 function sendPost(uid, url, time) {
+    let content = quillGetHTML(quill.getContents());
     let dataPost = {
         user: uid,
-        content: taContentPost.value,
+        content: content,
         image: url,
         timePosted: time
     };
@@ -58,7 +96,7 @@ function sendPost(uid, url, time) {
     xhr.send(JSON.stringify(dataPost));
     inputImage.src = '';
     imagePreview.src = '';
-    taContentPost.value = '';
+    quill.setText('');
 }
 
 function getCurrentTimeString() {
@@ -88,11 +126,6 @@ function handleActivitySubscription(snapshot, counter) {
                 console.log('edit');
                 const post = change.doc.data();
                 $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
-            }
-            if (change.type === 'removed') {
-                console.log('remove');
-                const remove = change.doc.data();
-                $('html').find('#' + remove.id).remove();
             }
         }
     });
@@ -153,7 +186,7 @@ $(window).scroll(function() {
                     if (change.type === 'modified') {
                         console.log('edit');
                         const post = change.doc.data();
-                        $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
+                        $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="text-decoration: none;color:darkgreen; cursor: pointer;" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
                     }
                     if (change.type === 'removed') {
                         console.log('remove');
@@ -177,10 +210,10 @@ function prependPost(post) {
             '<div class="postContentInside ml-3">' +
             '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
             '<span class="ml-2">' + time + '</span>' +
-            '<p>' + post.content + '</p>' +
+            '<div>' + post.content + '</div>' +
             '</div>' +
             '</div>' +
-            '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
+            '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="text-decoration: none;color:darkgreen; cursor: pointer;" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
             '<div class="row text-center p-2 mb-2">' +
             '<div class="col-6"><a id="like" style="color:darkgreen;cursor: pointer" onclick="likePost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>\n' +
             '<div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
@@ -199,10 +232,10 @@ function appendPost(post) {
             '<div class="postContentInside ml-3">' +
             '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
             '<span class="ml-2">' + time + '</span>' +
-            '<p>' + post.content + '</p>' +
+            '<div>' + post.content + '</div>' +
             '</div>' +
             '</div>' +
-            '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
+            '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: darkgreen;"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
             '<div class="row text-center p-2 mb-2">' +
             '<div class="col-6"><a id="like" style="color:darkgreen;cursor: pointer" onclick="likePost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>\n' +
             '<div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +

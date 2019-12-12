@@ -23,5 +23,6 @@ router.get('/about', middleware.auth, controller.getAboutPage);
 router.post('/sendMessage', middleware.auth, controller.sendMessage);
 router.post('/editPost', middleware.auth, controller.editPost);
 router.post('/deletePost', middleware.auth, controller.deletePost);
+router.put('/updateLocation', middleware.auth, controller.updateLocation);
 
 module.exports = router;

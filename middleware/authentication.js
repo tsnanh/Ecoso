@@ -6,7 +6,7 @@ exports.auth = (req, res, next) => {
             if (snap.exists) {
                 res.locals.avatar = snap.get('avatar');
                 res.locals.uid = decodeClaims.uid;
-                res.locals.name = decodeClaims.name;
+                res.locals.name = snap.data().name;
                 res.locals.permission = snap.get('isAdmin');
                 next()
             } else {
