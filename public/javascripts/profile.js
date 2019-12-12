@@ -49,7 +49,7 @@ $(window).bind("load", () => {
                     firebase.firestore().collection('users').doc(post.user).get().then(snap => {
                         const poster = snap.data();
                         $('#postContainer').append('<div style="margin-bottom: 24px; margin-top: 24px" class="post" id="' + post.id + '">' +
-                            '<a href="' + post.image + '"><img class="mx-auto d-block" src="' + post.image + '" /></a>' +
+                            '<a href="' + post.image + '"><img class="mx-auto d-block" style="border-radius: 8px;" src="' + post.image + '" /></a>' +
                             '<div class="postContent d-flex">' +
                             '<img class="rounded-circle" src="' + poster.avatar + '" />' +
                             '<div class="postContentInside ml-3">' +

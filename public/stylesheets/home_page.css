@@ -35,7 +35,7 @@ header {
     line-height: 30px;
     text-align: justify;
     background: white;
-    border-radius: 4px;
+    border-radius: 8px;
     /*
     -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
     -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
@@ -50,7 +50,7 @@ header {
     line-height: 30px;
     text-align: justify;
     background: white;
-    border-radius: 4px;
+    border-radius: 8px;
     /*
     -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
     -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
@@ -313,7 +313,7 @@ nav ul li a {
 }
 
 .post {
-    border-radius: 6px;
+    border-radius: 8px;
     margin-top: 16px;
     margin-left: 16px;
     margin-right: 16px;
@@ -331,7 +331,7 @@ nav ul li a {
     padding: 16px;
     background: #0d4b19;
     color: white;
-    border-radius: 6px;
+    border-radius: 8px;
 }
 .postContent img {
     width: 80px;

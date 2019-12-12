@@ -14,6 +14,7 @@ exports.auth = (req, res, next) => {
             }
         });
     }).catch(err => {
+        console.error(err);
         res.redirect('/login');
     })
 };

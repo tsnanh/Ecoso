@@ -116,7 +116,7 @@ function createFnCounter(fn, invokeBeforeExecution) {
 
 
 let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'desc').limit(20);
-let observer = doc.onSnapshot(handleActivitySubscriptionWithCounter);/* querySnap => {
+doc.onSnapshot(handleActivitySubscriptionWithCounter);/* querySnap => {
     lastVisible = querySnap.docs[querySnap.docs.length - 1];
     querySnap.docChanges().forEach(change => {
         if (change.type === 'added') {
@@ -170,7 +170,7 @@ function prependPost(post) {
     const time = getDateDiff(post.timePosted);
     firebase.firestore().collection('users').doc(post.user).get().then(snap => {
         $('#postContainer').prepend('<div class="post" id="' + post.id + '">' +
-            '<a href="' + post.image + '"><img class="mx-auto d-block" src="' + post.image + '"  alt="" /></a>' +
+            '<a href="' + post.image + '"><img class="mx-auto d-block" style="border-radius: 8px;" src="' + post.image + '"  alt="" /></a>' +
             '<img class="mx-auto d-block" src="' + post.image + '"  alt=""/>' +
             '<div class="postContent d-flex">' +
             '<img class="rounded-circle" src="' + post.userAvatar + '"  alt=""/>' +
@@ -188,11 +188,12 @@ function prependPost(post) {
             '</div>');
     })
 }
-async function appendPost(post) {
+
+function appendPost(post) {
     const time = getDateDiff(post.timePosted);
     firebase.firestore().collection('users').doc(post.user).get().then(async snap => {
-        await $('#postContainer').append('<div style="margin-bottom: 24px; margin-top: 24px" class="post" id="' + post.id + '">' +
-            '<a href="' + post.image + '"><img class="mx-auto d-block" src="' + post.image + '" /></a>' +
+        $('#postContainer').append('<div style="margin-bottom: 24px; margin-top: 24px" class="post" id="' + post.id + '">' +
+            '<a href="' + post.image + '"><img class="mx-auto d-block" style="border-radius: 8px;" src="' + post.image + '" /></a>' +
             '<div class="postContent d-flex">' +
             '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
             '<div class="postContentInside ml-3">' +
