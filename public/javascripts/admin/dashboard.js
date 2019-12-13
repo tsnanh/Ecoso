@@ -18,7 +18,11 @@ function getUserGrowMostTree() {
         .onSnapshot(snap => {
             snap.docChanges().forEach(change => {
                 const user = change.doc.data();
-                $('#userPlantMostTree').html('<a href="/users/' + user.id + '">' + user.name + '</a>');
+                if (user.tree === 0) {
+                    $('#userPlantMostTree').html('Unknown');
+                } else {
+                    $('#userPlantMostTree').html('<a href="/users/' + user.id + '">' + user.name + '</a>');
+                }
             })
         })
 }

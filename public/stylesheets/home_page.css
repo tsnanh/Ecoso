@@ -90,7 +90,7 @@ nav ul {
 }
 
 nav.black ul {
-    background: #000;
+    background: rgba(0, 0, 0, 0.35);
 }
 
 nav ul li {
@@ -144,7 +144,7 @@ nav ul li a {
     }
 
     nav.black ul {
-        background: #000;
+        background: rgba(0, 0, 0, 0.35);
     }
 
     .showing {
@@ -424,11 +424,11 @@ nav ul li a {
     background: darkgreen !important;
     color: white !important;
 }
-.navv {
-    background: rgba(0, 0, 0, 0.4);
-    -webkit-transition: opacity 2s ease-in;
-    -moz-transition: opacity 2s ease-in;
-    -o-transition: opacity 2s ease-in;
-    -ms-transition: opacity 2s ease-in;
-    transition: opacity 2s ease-in;
-}
+/*.navv {*/
+/*    background: rgba(0, 0, 0, 0.4);*/
+/*    -webkit-transition: opacity 2s ease-in;*/
+/*    -moz-transition: opacity 2s ease-in;*/
+/*    -o-transition: opacity 2s ease-in;*/
+/*    -ms-transition: opacity 2s ease-in;*/
+/*    transition: opacity 2s ease-in;*/
+/*}*/
