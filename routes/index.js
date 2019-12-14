@@ -15,7 +15,6 @@ router.post('/updateInfo', controller.updateUserInfo);
 router.post('/createPost', middleware.auth, controller.createNewPost);
 router.get('/profile', middleware.auth, controller.getProfile);
 router.post('/likePost', middleware.auth, controller.likePost);
-router.get('/user/:uid/post/:postID', middleware.auth, controller.getPost);
 router.post('/comment', middleware.auth, controller.comment);
 router.get('/globalChat', middleware.auth, controller.getGlobalChat);
 router.post('/deletePost', middleware.auth, controller.deletePost);

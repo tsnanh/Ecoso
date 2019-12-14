@@ -256,7 +256,7 @@ function likePost(postID, userID) {
 }
 
 function commentPost(postID, userID) {
-    window.open('/user/' + userID + '/post/' + postID, '_self');
+    window.open('/users/' + userID + '/posts/' + postID, '_self');
 }
 
 // start running after page loaded

@@ -10,7 +10,7 @@ function likeYourPost(postID, userID) {
 }
 
 function commentYourPost(postID, userID) {
-    window.open('/user/' + userID + '/post/' + postID, '_self');
+    window.open('/users/' + userID + '/post/' + postID, '_self');
 }
 
 // function deleteYourPost(postID, userID) {
@@ -61,7 +61,7 @@ $(window).bind("load", () => {
                             '<div id="' + post.id + 'likeCount" class="ml-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '</div>' +
                             '<div class="row text-center p-2 mb-2">' +
                             '<div class="col-6"><a id="like" style="color:darkgreen;cursor: pointer" onclick="likeYourPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-gittip"></i>  Like</a></div>\n' +
-                            '<div class="col-6"><a style="color:darkgreen;" href="/user/' + post.user + '/post/' + post.id + '" onclick="commentYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
+                            '<div class="col-6"><a style="color:darkgreen;" href="/users/' + post.user + '/post/' + post.id + '" onclick="commentYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
                             // '<div class="col-4"><a id="delete" style="color:darkgreen;" href="javascript:void(0)" onclick="deleteYourPost(\'' + post.id + ',' + post.user + '\')" class="card-link"><i class="material-icons">&#xe872;</i>  Delete</a></div>\n' +
                             '</div>' +
                             '</div>');

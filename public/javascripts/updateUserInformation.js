@@ -45,7 +45,7 @@ $(document).ready(function () {
                     })
                 });
             } else {
-                sendInformationData('/images/avatar-icon.png')
+                sendInformationData('/images/ecoso_logo.png')
             }
         });
     });

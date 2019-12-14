@@ -5,5 +5,6 @@ const middleware = require('../middleware/authentication');
 
 /* GET users listing. */
 router.get('/:uid', middleware.auth, controller.profile);
+router.get('/:uid/posts/:postID', middleware.auth, controller.getPost);
 
 module.exports = router;

@@ -164,30 +164,11 @@ exports.createNewPost = (req, res) => {
 exports.getProfile = function (req, res) {
     admin.firestore().collection('users').doc(res.locals.uid).get().then(snap => {
         if (snap.exists) {
-            res.render('profile', snap.data());
+            res.render('profile', {profile: snap.data()});
         } else {
             res.render('error');
         }
     });
-};
-
-exports.getPost = (req, res) => {
-    const userUID = req.params.uid;
-    const postID = req.params.postID;
-        admin.firestore().collection('users').doc(userUID).get().then(snap => {
-            const user = snap.data();
-            admin
-                .firestore()
-                .collection('users')
-                .doc(userUID)
-                .collection('posts')
-                .doc(postID)
-                .get()
-                .then(snap => {
-                    const post = snap.data();
-                    res.render('post', {post, user});
-                });
-        })
 };
 
 exports.comment = (req, res) => {
