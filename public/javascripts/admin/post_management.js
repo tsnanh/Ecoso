@@ -1,7 +1,4 @@
 const firestore = firebase.firestore();
-
-// const tfSearch = document.getElementById('searchUser')
-
 const userContainer = $('#postContainer');
 
 let lastVisible = null;
@@ -48,10 +45,6 @@ function handleActivitySubscription(snapshot, counter) {
         if (initialLoad) {
             await appendData(change.doc.data());
         } else {
-            if (change.type === 'added') {
-                // const post = change.doc.data();
-                // prependData(post);
-            }
             if (change.type === 'modified') {
                 console.log('edit');
                 const post = change.doc.data();
@@ -60,8 +53,6 @@ function handleActivitySubscription(snapshot, counter) {
             }
             if (change.type === 'removed') {
                 $('html').find('#' + change.doc.data().id).remove();
-                // const remove = change.doc.data();
-                // $('#' + remove.id).remove();
             }
         }
     });
@@ -109,28 +100,6 @@ $(window).scroll(function() {
     }
 });
 
-/** todo: WAITING FOR SOLUTIONS **/
-// function prependData(post) {
-//     console.log('booom');
-//     userContainer.prepend('<div class="post" id="' + post.id + '">' +
-//         '<img class="mx-auto d-block" src="' + post.image + '" />' +
-//         '<div class="postContent d-flex card-header-success">' +
-//         '<img class="rounded-circle" src="' + post.userAvatar + '" />' +
-//         '<div class="postContentInside ml-3">' +
-//         '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
-//         '<span class="ml-2">' + post.time + '</span>' +
-//         '<p>' + post.content + '</p>' +
-//         '</div>' +
-//         '</div>' +
-//         '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: lightgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a class="float-right" onclick="commentPost()"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
-//         '<div class="row text-center p-2 mb-2">' +
-//         '<div class="col-6"><a style="color: lightgreen" href="/user/' + post.user + '/post/' + post.id + '" onclick="viewPost()" class="card-link"><i class="material-icons">visibility</i>  View</a></div>' +
-//         '<div class="col-6"><a style="color: lightgreen" href="javascript:void(0)" onclick="removePost(\'' + post.user + '\', \'' + post.id + '\')" class="card-link"><i class="material-icons">delete</i>  Delete</a></div>' +
-//         '</div>' +
-//         '</div>');
-// }
-
-
 function removePost(uid, id) {
     console.log(uid + '  ' + id);
     $.ajax({
@@ -141,15 +110,6 @@ function removePost(uid, id) {
         window.open('/admin/postManagement', '_self');
     })
 }
-/* UNUSED */
-// function getDateTime(timestamp) {
-//     let date = new Date(timestamp)
-//     let dd = String(date.getDate()).padStart(2, '0');
-//     let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-//     let yyyy = date.getFullYear();
-//
-//     return dd + '/' + mm + '/' + yyyy;
-// }
 
 $(document).ready(() => {
     getPostList()

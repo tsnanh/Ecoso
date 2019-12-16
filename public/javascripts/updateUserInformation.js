@@ -2,9 +2,6 @@ $(document).ready(function () {
     let image;
     let input = document.getElementById('profilePhoto');
 
-    let latitude = 0;
-    let longitude = 0;
-
     let uploadCrop = $('.croppie').croppie({
         url: 'https://icons-for-free.com/iconfiles/png/512/avatar+human+people+profile+user+icon-1320168139431219590.png',
         enableExif: true,
@@ -60,11 +57,6 @@ $(document).ready(function () {
             address: document.getElementById('address').value,
             gender: $('input[name="gender"]:checked').val()
         };
-        console.log(data)
-        // let xmlHttpRequest = new XMLHttpRequest();
-        // xmlHttpRequest.open('POST', '/updateInfo', false);
-        // xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
-        // xmlHttpRequest.send(JSON.stringify(data));
         $.ajax({
             url: '/updateInfo',
             method: 'POST',

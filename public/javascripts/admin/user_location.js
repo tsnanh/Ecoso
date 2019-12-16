@@ -1,7 +1,5 @@
 const firestore = firebase.firestore();
 
-
-
 function initMaps() {
     firestore.collection('users').onSnapshot(snap => {
         let map = new google.maps.Map(document.getElementById('map'), {zoom: 14, scrollwheel: false});

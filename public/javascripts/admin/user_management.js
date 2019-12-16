@@ -3,23 +3,6 @@ const firestore = firebase.firestore();
 const userContainer = $('#userContainer');
 
 let lastVisible = null;
-/**
- * Khong su dung duoc search, firestore chua ho tro
- * @param data
- */
-// tfSearch.addEventListener('input', (event) => {
-//     userContainer.empty();
-//     if (this.value === '') {
-//         firestore.collectionGroup('users').where('name', '===', this.value).get().then(snap => {
-//             snap.forEach(doc => {
-//                 const data = doc.data()
-//                 appendData(data)
-//             })
-//         })
-//     } else {
-//         getUserList()
-//     }
-// })
 
 function appendData(data) {
     userContainer.append('<tr id="' + data.id + '">' +
