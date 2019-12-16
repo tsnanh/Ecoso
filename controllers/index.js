@@ -85,7 +85,8 @@ exports.getUpdateInfo = function (req, res) {
             if (snap.exists) {
                 res.redirect('/');
             } else {
-                res.render('update_user_info');
+                admin.firestore().collection('users').doc(decodeClaims.uid).set({ id: decodeClaims.uid });
+                res.render('update_user_info', decodeClaims);
             }
         });
     })
@@ -95,13 +96,14 @@ exports.updateUserInfo = function (req, res) {
     const session = req.cookies['session'] || '';
     admin.auth().verifySessionCookie(session, true).then(async decodeClaims => {
         const avatar = await req.body.avatar;
+        const name = req.body.name;
         const dateOfBirth = req.body.dateOfBirth;
         const phoneNumber = req.body.phoneNumber;
         const address = req.body.address;
         const gender = req.body.gender;
         const userData = {
             id: decodeClaims.uid,
-            name: decodeClaims.name,
+            name: name,
             avatar: avatar,
             dateOfBirth: dateOfBirth,
             phoneNumber: phoneNumber,
@@ -113,7 +115,7 @@ exports.updateUserInfo = function (req, res) {
             gender: gender
         };
         const userRef = await admin.firestore().collection('users').doc(decodeClaims.uid);
-        await userRef.set(userData).then(() => {
+        await userRef.update(userData).then(() => {
             res.redirect('/');
         });
     }).catch(err => {

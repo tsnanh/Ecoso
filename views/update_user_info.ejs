@@ -38,6 +38,7 @@
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Update Your Information</h2>
+                    <form>
                         <div class="row row-space">
                             <div class="col-12" style="width: 100%">
                                 <label class="label">Profile photo:</label>
@@ -47,11 +48,19 @@
                             </div>
                         </div>
                         <div class="row row-space">
+                            <div class="col-12" style="width: 100%;">
+                                <div class="input-group">
+                                    <label class="label">Name</label>
+                                    <input class="input--style-4" type="text" id="name" value="<%=name%>" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Birthday</label>
                                     <div class="input-group-icon">
-                                        <input class="input--style-4 js-datepicker" type="date" name="dateOfBirth" id="dateOfBirth">
+                                        <input class="input--style-4 js-datepicker" type="date" name="dateOfBirth" id="dateOfBirth" required>
                                         <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                                     </div>
                                 </div>
@@ -76,19 +85,20 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Address</label>
-                                    <input class="input--style-4" type="text" id="address">
+                                    <input class="input--style-4" type="text" id="address" required>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Phone Number</label>
-                                    <input class="input--style-4" type="text" id="phoneNumber">
+                                    <input class="input--style-4" type="text" id="phoneNumber" required>
                                 </div>
                             </div>
                         </div>
                         <div class="p-t-15">
                             <button id="updateInfo" class="btn btn--radius-2 btn--green" type="button">Update</button>
                         </div>
+                    </form>
                 </div>
             </div>
         </div>

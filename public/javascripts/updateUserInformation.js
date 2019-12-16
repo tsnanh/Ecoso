@@ -54,6 +54,7 @@ $(document).ready(function () {
 
         let data = {
             avatar: url,
+            name: document.getElementById('name').value,
             dateOfBirth: document.getElementById('dateOfBirth').value,
             phoneNumber: document.getElementById('phoneNumber').value,
             address: document.getElementById('address').value,

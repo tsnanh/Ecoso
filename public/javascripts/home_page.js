@@ -1,5 +1,4 @@
 const inputImage = document.getElementById('imagePost');
-// const taContentPost = document.getElementById('taPost');
 const imagePreview = document.getElementById('imgPreview');
 const firestore = firebase.firestore();
 let image;
@@ -110,17 +109,17 @@ function getCurrentTimeString() {
     return yyyy + MM + dd + hh + mm + ss;
 }
 
-
 function handleActivitySubscription(snapshot, counter) {
     const initialLoad = counter === 1;
     lastVisible = snapshot.docs[snapshot.docs.length - 1];
-    snapshot.docChanges().forEach(async function(change) {
+    snapshot.docChanges().forEach(async (change) => {
         if (initialLoad) {
             await appendPost(change.doc.data());
+            console.log(change.doc.data());
         } else {
-            if (await change.type === 'added') {
-                const post = await change.doc.data();
-                await prependPost(post);
+            if (change.type === 'added') {
+                const post = change.doc.data();
+                prependPost(post);
             }
             if (change.type === 'modified') {
                 console.log('edit');
@@ -149,26 +148,7 @@ function createFnCounter(fn, invokeBeforeExecution) {
 
 
 let doc = firestore.collectionGroup('posts').orderBy('timePosted', 'desc').limit(20);
-doc.onSnapshot(handleActivitySubscriptionWithCounter);/* querySnap => {
-    lastVisible = querySnap.docs[querySnap.docs.length - 1];
-    querySnap.docChanges().forEach(change => {
-        if (change.type === 'added') {
-            const post = change.doc.data();
-            prependPost(post);
-        }
-        if (change.type === 'modified') {
-            console.log('edit');
-            const post = change.doc.data();
-            $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
-        }
-        if (change.type === 'removed') {
-            console.log('remove');
-            const remove = change.doc.data();
-            $('html').find('#' + remove.id).remove();
-
-        }
-    }) */
-// });
+doc.onSnapshot(handleActivitySubscriptionWithCounter);
 
 // load more post when user scroll to bottom hihihihihihihi
 $(window).scroll(function() {
@@ -201,10 +181,8 @@ $(window).scroll(function() {
 
 function prependPost(post) {
     const time = getDateDiff(post.timePosted);
-    firebase.firestore().collection('users').doc(post.user).get().then(snap => {
         $('#postContainer').prepend('<div class="post" id="' + post.id + '">' +
             '<a href="' + post.image + '"><img class="mx-auto d-block" style="border-radius: 8px;" src="' + post.image + '"  alt="" /></a>' +
-            '<img class="mx-auto d-block" src="' + post.image + '"  alt=""/>' +
             '<div class="postContent d-flex">' +
             '<img class="rounded-circle" src="' + post.userAvatar + '"  alt=""/>' +
             '<div class="postContentInside ml-3">' +
@@ -219,12 +197,10 @@ function prependPost(post) {
             '<div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
             '</div>' +
             '</div>');
-    })
 }
 
-function appendPost(post) {
-    const time = getDateDiff(post.timePosted);
-    firebase.firestore().collection('users').doc(post.user).get().then(async snap => {
+async function appendPost(post) {
+    const time = await getDateDiff(post.timePosted);
         $('#postContainer').append('<div style="margin-bottom: 24px; margin-top: 24px" class="post" id="' + post.id + '">' +
             '<a href="' + post.image + '"><img class="mx-auto d-block" style="border-radius: 8px;" src="' + post.image + '" /></a>' +
             '<div class="postContent d-flex">' +
@@ -241,7 +217,6 @@ function appendPost(post) {
             '<div class="col-6"><a style="color:darkgreen;cursor: pointer" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')" class="card-link"><i class="fa fa-comment"></i>  Comment</a></div>\n' +
             '</div>' +
             '</div>');
-    })
 }
 
 function likePost(postID, userID) {
