@@ -124,6 +124,7 @@ function handleActivitySubscription(snapshot, counter) {
             if (change.type === 'modified') {
                 console.log('edit');
                 const post = change.doc.data();
+                $('#' + post.id + '>div>div>.contentPost').html(post.content);
                 $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
             }
         }
@@ -166,6 +167,7 @@ $(window).scroll(function() {
                     if (change.type === 'modified') {
                         console.log('edit');
                         const post = change.doc.data();
+                        $('#' + post.id + '>div>div>.contentPost').text(post.content);
                         $('#' + post.id + 'likeCount').html('<i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="text-decoration: none;color:darkgreen; cursor: pointer;" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a>');
                     }
                     if (change.type === 'removed') {
@@ -188,7 +190,7 @@ function prependPost(post) {
             '<div class="postContentInside ml-3">' +
             '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
             '<span class="ml-2">' + time + '</span>' +
-            '<div>' + post.content + '</div>' +
+            '<div class="contentPost">' + post.content + '</div>' +
             '</div>' +
             '</div>' +
             '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: darkgreen"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="text-decoration: none;color:darkgreen; cursor: pointer;" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
@@ -208,7 +210,7 @@ async function appendPost(post) {
             '<div class="postContentInside ml-3">' +
             '<a href="/users/' + post.user + '">' + post.userDisplayName + '</a>' +
             '<span class="ml-2">' + time + '</span>' +
-            '<div>' + post.content + '</div>' +
+            '<div class="contentPost">' + post.content + '</div>' +
             '</div>' +
             '</div>' +
             '<div id="' + post.id + 'likeCount" class="ml-2 mr-2" style="color: darkgreen;"><i class="fa fa-gittip"></i>  ' + post.likes.count + '<a style="cursor: pointer" class="float-right" onclick="commentPost(\'' + post.id + '\',\'' + post.user + '\')"><i class="fa fa-comment"></i>&nbsp;' + post.comments.count + '</a></div>' +
